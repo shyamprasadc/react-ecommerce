@@ -9,7 +9,7 @@ import {
 import products from "../assets/data/products.json";
 const { Meta } = Card;
 
-function Home() {
+function Wishlist() {
   let history = useHistory();
 
   const redirect = (id) => {
@@ -19,6 +19,7 @@ function Home() {
   const renderProduct = (product, index) => {
     return (
       <React.Fragment>
+        <h4>My Wishlist</h4>
         <Col span={6}>
           <Row>
             <Col span={2}></Col>
@@ -70,4 +71,4 @@ function Home() {
   );
 }
 
-export default Home;
+export default Wishlist;

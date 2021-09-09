@@ -1,63 +1,64 @@
 import React, { Component } from "react";
+import { Menu, Row, Col, Button, Space } from "antd";
 import {
-  Nav,
-  Navbar,
-  NavDropdown,
-  Form,
-  FormControl,
-  Button,
-  Container,
-} from "react-bootstrap";
-import { Link } from "react-router-dom";
+  ShoppingCartOutlined,
+  HeartOutlined,
+  UserOutlined,
+} from "@ant-design/icons";
 import logo from "../assets/images/hon_logo_1.png";
 
 class NavbarComp extends Component {
+  state = {
+    current: "1",
+  };
+
+  handleMenuClick = (e) => {
+    console.log("click ", e);
+    this.setState({ current: e.key });
+  };
+  handleWishlistClick = () => {
+    this.props.history.push("/wishlist");
+  };
+
   render() {
+    const { current } = this.state;
     return (
-      <Navbar bg="light" expand="lg">
-        <Navbar.Brand href="/">
-          <img src={logo} className="logo-image" />
-        </Navbar.Brand>
-        <Navbar.Toggle aria-controls="navbarScroll" />
-        <Navbar.Collapse id="navbarScroll">
-          <Nav
-            className="mr-auto my-2 my-lg-0"
-            style={{ maxHeight: "100px" }}
-            navbarScroll
-          >
-            <Nav.Link as={Link} to="/">
-              ALL
-            </Nav.Link>
-            <Nav.Link as={Link} to="/product">
-              DESKS
-            </Nav.Link>
-            <Nav.Link as={Link} to="/product">
-              CHAIRS
-            </Nav.Link>
-            <Nav.Link as={Link} to="/product">
-              STORAGE & ACCESSORIES
-            </Nav.Link>
-            <Nav.Link as={Link} to="/product">
-              BUNDLES
-            </Nav.Link>
-            <Nav.Link as={Link} to="/product">
-              SHOP BY SPACE
-            </Nav.Link>
-            <Nav.Link as={Link} to="/product">
-              DESIGN YOUR HOME OFFICE
-            </Nav.Link>
-          </Nav>
-          <Form className="d-flex ">
-            <FormControl
-              type="search"
-              placeholder="Search"
-              className="mr-2"
-              aria-label="Search"
+      <React.Fragment>
+        <Row>
+          <Col span={3}>
+            <img
+              alt="logo"
+              src={logo}
+              style={{ maxHeight: 30, marginLeft: 10 }}
             />
-            {/* <Button variant="outline-success">Search</Button> */}
-          </Form>
-        </Navbar.Collapse>
-      </Navbar>
+          </Col>
+          <Col span={18}>
+            <Menu
+              onClick={this.handleMenuClick}
+              selectedKeys={[current]}
+              mode="horizontal"
+            >
+              <Menu.Item key="1">ALL</Menu.Item>
+              <Menu.Item key="2">DESKS</Menu.Item>
+              <Menu.Item key="3">CHAIRS</Menu.Item>
+              <Menu.Item key="4">STORAGE & ACCESSORIES</Menu.Item>
+              <Menu.Item key="5">SHOP BY SPACE</Menu.Item>
+              <Menu.Item key="6">DESIGN YOUR HOME OFFICE</Menu.Item>
+            </Menu>
+          </Col>
+          <Col span={3}>
+            <Space>
+              <Button
+                shape="circle"
+                icon={<HeartOutlined />}
+                onClick={() => this.handleWishlistClick}
+              />
+              <Button shape="circle" icon={<UserOutlined />} />
+              <Button shape="circle" icon={<ShoppingCartOutlined />} />
+            </Space>
+          </Col>
+        </Row>
+      </React.Fragment>
     );
   }
 }
