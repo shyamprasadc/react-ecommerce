@@ -8,16 +8,23 @@ import {
 import logo from "../assets/images/hon_logo_1.png";
 
 class NavbarComp extends Component {
-  state = {
-    current: "1",
-  };
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      current: "1",
+    };
+
+    this.handleMenuClick.bind(this);
+  }
 
   handleMenuClick = (e) => {
     console.log("click ", e);
     this.setState({ current: e.key });
   };
+
   handleWishlistClick = () => {
-    this.props.history.push("/wishlist");
+    this.props.history.push(`wishlist`);
   };
 
   render() {
@@ -51,7 +58,7 @@ class NavbarComp extends Component {
               <Button
                 shape="circle"
                 icon={<HeartOutlined />}
-                onClick={() => this.handleWishlistClick}
+                onClick={() => this.handleWishlistClick()}
               />
               <Button shape="circle" icon={<UserOutlined />} />
               <Button shape="circle" icon={<ShoppingCartOutlined />} />

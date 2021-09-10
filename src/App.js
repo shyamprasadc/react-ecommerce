@@ -11,6 +11,7 @@ import NavbarComp from "./components/NavbarComp";
 import FooterComp from "./components/FooterComp";
 import Wishlist from "./components/Wishlist";
 import Cart from "./components/Cart";
+import Login from "./components/Login";
 const { Header, Footer, Content } = Layout;
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
           <Content style={{ background: "white", padding: "2%" }}>
             <Switch>
               <Route exact path="/" component={Home} />
+              <Route path="/login" component={Login} />
               <Route path="/products/:id" component={Product} />
               <Route path="/wishlist" component={Wishlist} />
               <Route path="/cart" component={Cart} />

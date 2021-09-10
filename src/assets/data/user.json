@@ -1,0 +1,19 @@
+{
+  "userId": 3,
+  "name": "shyam",
+  "email": "shyamc@locus.sh",
+  "phone": "8136818533",
+  "password": "$2a$10$VQ5Ukq5Hnxt7M3tfuIhOT.BEf6zXEQXIyaaIFkMsiwB4ZwpONhW1u",
+  "roles": [
+    {
+      "roleId": 1,
+      "name": "ROLE_CUSTOMER"
+    }
+  ],
+  "status": 1,
+  "address": "Vadakara",
+  "city": "Kozhikode",
+  "postcode": "673507",
+  "createdAt": "2021-09-10T07:09:59.345+00:00",
+  "updatedAt": "2021-09-10T07:09:59.345+00:00"
+}

@@ -1,6 +1,6 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
-import { Card, Col, Row } from "antd";
+import { Card, Col, Row, Typography } from "antd";
 import {
   HeartOutlined,
   EllipsisOutlined,
@@ -8,6 +8,7 @@ import {
 } from "@ant-design/icons";
 import products from "../assets/data/products.json";
 const { Meta } = Card;
+const { Title } = Typography;
 
 function Wishlist() {
   let history = useHistory();
@@ -19,7 +20,6 @@ function Wishlist() {
   const renderProduct = (product, index) => {
     return (
       <React.Fragment>
-        <h4>My Wishlist</h4>
         <Col span={6}>
           <Row>
             <Col span={2}></Col>
@@ -65,9 +65,11 @@ function Wishlist() {
   };
 
   return (
-    <div>
+    <React.Fragment>
+      <Title level={4}>My Wishlist</Title>
+      <br />
       <Row gutter={[16, 24]}>{products.map(renderProduct)}</Row>
-    </div>
+    </React.Fragment>
   );
 }
 

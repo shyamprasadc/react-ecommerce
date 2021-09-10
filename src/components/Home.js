@@ -12,7 +12,7 @@ const { Meta } = Card;
 function Home() {
   let history = useHistory();
 
-  const redirect = (id) => {
+  const handleImageClick = (id) => {
     history.push(`products/${id}`);
   };
 
@@ -30,7 +30,7 @@ function Home() {
                   <img
                     alt="example"
                     src={product.image}
-                    onClick={() => redirect(product.productId)}
+                    onClick={() => handleImageClick(product.productId)}
                   />
                 }
                 actions={[
@@ -41,10 +41,10 @@ function Home() {
               >
                 <Meta title={product.name} description={product.description} />
                 <span style={{ marginInlineEnd: 10 }}>
-                  {product.discountedPrice}
+                  ₹{product.discountedPrice}
                 </span>
-                <span style={{ textDecoration: "line-through" }}>
-                  {` ${product.regularPrice} `}
+                <span style={{ textDecoration: "line-through", color: "grey" }}>
+                  {` ₹${product.regularPrice} `}
                 </span>
                 <span style={{ marginInlineStart: 10, color: "orange" }}>
                   {Math.round(
@@ -64,9 +64,9 @@ function Home() {
   };
 
   return (
-    <div>
+    <React.Fragment>
       <Row gutter={[16, 24]}>{products.map(renderProduct)}</Row>
-    </div>
+    </React.Fragment>
   );
 }
 

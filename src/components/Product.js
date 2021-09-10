@@ -1,8 +1,19 @@
 import React, { useState } from "react";
-import { Row, Col, Button, Space, Image, Rate, Select, Divider } from "antd";
+import {
+  Row,
+  Col,
+  Button,
+  Space,
+  Image,
+  Rate,
+  Select,
+  Divider,
+  Typography,
+} from "antd";
 import products from "../assets/data/products.json";
 import Review from "./Review";
 const { Option } = Select;
+const { Title } = Typography;
 
 function Product(props) {
   const paramsId = props.match.params.id;
@@ -35,18 +46,18 @@ function Product(props) {
           </div>
         </Col>
         <Col span={9}>
-          <h3>{product.name}</h3>
-          <h4>{product.description}</h4>
+          <Title level={3}>{product.name}</Title>
+          <Title level={4}>{product.description}</Title>
           <Rate value={3} />
           <br />
           <br />
           <div>
-            <h5>
+            <Title level={5}>
               <span style={{ marginInlineEnd: 10 }}>
-                {product.discountedPrice}
+                ₹{product.discountedPrice}
               </span>
-              <span style={{ textDecoration: "line-through" }}>
-                {` ${product.regularPrice} `}
+              <span style={{ textDecoration: "line-through", color: "grey" }}>
+                {` ₹${product.regularPrice} `}
               </span>
               <span style={{ marginInlineStart: 10, color: "orange" }}>
                 {Math.round(
@@ -56,10 +67,10 @@ function Product(props) {
                 )}
                 %
               </span>
-            </h5>
+            </Title>
             <br />
             <br />
-            <h6>Select size</h6>
+            <Title level={5}>Select size</Title>
             <Space>
               <Button shape="circle">S</Button>
               <Button shape="circle">M</Button>

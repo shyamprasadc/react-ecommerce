@@ -13,9 +13,10 @@ function Review() {
             avatar={<Rate value={3} />}
             content={
               <p>
-                We supply a series of design principles, practical patterns and
-                high quality design resources (Sketch and Axure), to help people
-                create their product prototypes beautifully and efficiently.
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                Magna fermentum iaculis eu non. At imperdiet dui accumsan sit
+                amet nulla.
               </p>
             }
             datetime={
