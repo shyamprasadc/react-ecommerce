@@ -8,16 +8,17 @@ import {
   EllipsisOutlined,
   ShoppingOutlined,
 } from "@ant-design/icons";
-import { setProducts } from "../redux/actions/productsActions";
+import { setWishlist } from "../redux/actions/wishlistActions";
+import products from "../assets/data/products.json";
 const { Meta } = Card;
 const { Title } = Typography;
 
 function Wishlist(props) {
   let history = useHistory();
-  const products = useSelector((state) => state.allProducts.products);
+  const wishlist = useSelector((state) => state.allWishlist.wishlist);
   const dispatch = useDispatch();
 
-  const fetchProducts = async () => {
+  const fetchWishlist = async () => {
     const accessToken = localStorage.getItem("accessToken");
     const config = {
       method: "GET",
@@ -30,18 +31,18 @@ function Wishlist(props) {
       console.log("Err: ", err);
       history.push("/login");
     });
-    if (response) dispatch(setProducts(response.data));
+    if (response) dispatch(setWishlist(response.data));
   };
 
   useEffect(() => {
-    fetchProducts();
+    fetchWishlist();
   }, []);
 
   const handleImageClick = (id) => {
     history.push(`/products/${id}`);
   };
 
-  const renderProduct = (product, index) => {
+  const renderProduct = (wishlistItem, index) => {
     return (
       <React.Fragment>
         <Col span={6}>
@@ -54,8 +55,10 @@ function Wishlist(props) {
                 cover={
                   <img
                     alt="example"
-                    src={product.image}
-                    onClick={() => handleImageClick(product.productId)}
+                    src={wishlistItem.product.image}
+                    onClick={() =>
+                      handleImageClick(wishlistItem.product.productId)
+                    }
                   />
                 }
                 actions={[
@@ -64,17 +67,21 @@ function Wishlist(props) {
                   <EllipsisOutlined key="ellipsis" />,
                 ]}
               >
-                <Meta title={product.name} description={product.description} />
+                <Meta
+                  title={wishlistItem.product.name}
+                  description={wishlistItem.product.description}
+                />
                 <span style={{ marginInlineEnd: 10 }}>
-                  {product.discountedPrice}
+                  {wishlistItem.product.discountedPrice}
                 </span>
                 <span style={{ textDecoration: "line-through" }}>
-                  {` ${product.regularPrice} `}
+                  {` ${wishlistItem.product.regularPrice} `}
                 </span>
                 <span style={{ marginInlineStart: 10, color: "orange" }}>
                   {Math.round(
-                    ((product.regularPrice - product.discountedPrice) /
-                      product.regularPrice) *
+                    ((wishlistItem.product.regularPrice -
+                      wishlistItem.product.discountedPrice) /
+                      wishlistItem.product.regularPrice) *
                       100
                   )}
                   %
@@ -92,7 +99,7 @@ function Wishlist(props) {
     <React.Fragment>
       <Title level={4}>My Wishlist</Title>
       <br />
-      <Row gutter={[16, 24]}>{products.map(renderProduct)}</Row>
+      <Row gutter={[16, 24]}>{wishlist.map(renderProduct)}</Row>
     </React.Fragment>
   );
 }

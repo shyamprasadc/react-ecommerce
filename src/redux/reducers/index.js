@@ -6,7 +6,7 @@ import { wishlistReducer } from "./wishlistReducer";
 const reducers = combineReducers({
   allProducts: productsReducer,
   product: selectedProductReducer,
-  cart: cartReducer,
-  wishlist: wishlistReducer,
+  allCart: cartReducer,
+  allWishlist: wishlistReducer,
 });
 export default reducers;

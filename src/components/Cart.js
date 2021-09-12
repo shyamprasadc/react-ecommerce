@@ -1,23 +1,23 @@
 import React, { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { Row, Col, Card, Typography, Button } from "antd";
+import { DeleteOutlined } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import _ from "lodash";
 import user from "../assets/data/user.json";
-// import products from "../assets/data/products.json";
-import { setProducts } from "../redux/actions/productsActions";
+import { setCart } from "../redux/actions/cartActions";
 const { Title } = Typography;
 const { Meta } = Card;
 
 function Cart(props) {
   let history = useHistory();
-  const products = useSelector((state) => state.allProducts.products);
+  const cart = useSelector((state) => state.allCart.cart);
   const dispatch = useDispatch();
-  const totalRegularPrice = _.sumBy(products, "regularPrice");
-  const totalDiscountPrice = _.sumBy(products, "discountedPrice");
+  const totalRegularPrice = _.sumBy(cart, "product.regularPrice");
+  const totalDiscountPrice = _.sumBy(cart, "product.discountedPrice");
 
-  const fetchProducts = async () => {
+  const fetchCart = async () => {
     const accessToken = localStorage.getItem("accessToken");
     const config = {
       method: "GET",
@@ -30,18 +30,36 @@ function Cart(props) {
       console.log("Err: ", err);
       history.push("/login");
     });
-    if (response) dispatch(setProducts(response.data));
+    if (response) dispatch(setCart(response.data));
   };
 
   useEffect(() => {
-    fetchProducts();
+    fetchCart();
   }, []);
+
+  const handleRemoveCartItemClick = async (id) => {
+    const accessToken = localStorage.getItem("accessToken");
+    const body = { cartId: id };
+    const config = {
+      method: "DELETE",
+      url: "http://localhost:8080/api/cart",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+      data: body,
+    };
+    const response = await axios(config).catch((err) => {
+      console.log("Err: ", err);
+      history.push("/login");
+    });
+    if (response) fetchCart();
+  };
 
   const handleImageClick = (id) => {
     history.push(`/products/${id}`);
   };
 
-  const renderProduct = (product, index) => {
+  const renderProduct = (cartItem, index) => {
     return (
       <React.Fragment>
         <Col span={24}>
@@ -50,24 +68,28 @@ function Cart(props) {
               <Col span={10}>
                 <img
                   alt="example"
-                  src={product.image}
+                  src={cartItem.product.image}
                   style={{ maxHeight: 150 }}
-                  onClick={() => handleImageClick(product.productId)}
+                  onClick={() => handleImageClick(cartItem.product.productId)}
                 />
               </Col>
-              <Col span={14}>
-                <Meta title={product.name} description={product.description} />
+              <Col span={13}>
+                <Meta
+                  title={cartItem.product.name}
+                  description={cartItem.product.description}
+                />
                 <br />
                 <span style={{ marginInlineEnd: 10 }}>
-                  ₹{product.discountedPrice}
+                  ₹{cartItem.product.discountedPrice}
                 </span>
                 <span style={{ textDecoration: "line-through", color: "grey" }}>
-                  {` ₹${product.regularPrice} `}
+                  {` ₹${cartItem.product.regularPrice} `}
                 </span>
                 <span style={{ marginInlineStart: 10, color: "orange" }}>
                   {Math.round(
-                    ((product.regularPrice - product.discountedPrice) /
-                      product.regularPrice) *
+                    ((cartItem.product.regularPrice -
+                      cartItem.product.discountedPrice) /
+                      cartItem.product.regularPrice) *
                       100
                   )}
                   %
@@ -75,6 +97,13 @@ function Cart(props) {
                 <br />
                 <br />
                 <p>Quantity: 1</p>
+              </Col>
+              <Col span={1}>
+                <Button
+                  shape="circle"
+                  icon={<DeleteOutlined />}
+                  onClick={() => handleRemoveCartItemClick(cartItem.cartId)}
+                />
               </Col>
             </Row>
           </Card>
@@ -96,11 +125,9 @@ function Cart(props) {
           </Card>
           <br />
           <br />
-          <Title level={5}>
-            My Shopping Cart{`(${products.length} Items)`}
-          </Title>
+          <Title level={5}>My Shopping Cart{`(${cart.length} Items)`}</Title>
           <br />
-          <Row gutter={[24, 24]}>{products.map(renderProduct)}</Row>
+          <Row gutter={[24, 24]}>{cart.map(renderProduct)}</Row>
         </Col>
         <Col span={2}></Col>
         <Col span={9}>
