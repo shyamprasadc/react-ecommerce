@@ -1,9 +1,35 @@
 import React from "react";
-import { Form, Input, Button, Checkbox } from "antd";
+import { useHistory } from "react-router-dom";
+import { Form, Input, Button, Checkbox, Card, Row, Col } from "antd";
+import axios from "axios";
 
 function Login(props) {
+  let history = useHistory();
+
   const onFinish = (values) => {
-    console.log("Success:", values);
+    login(values);
+  };
+
+  const login = async (data) => {
+    const body = new URLSearchParams();
+    body.append("username", data.username);
+    body.append("password", data.password);
+    const config = {
+      method: "POST",
+      url: "http://localhost:8080/api/auth/login",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      data: body,
+    };
+    const response = await axios(config).catch((err) => {
+      console.log("Err: ", err);
+      history.push("/login");
+    });
+    if (response) {
+      localStorage.setItem("accessToken", response.data.accessToken);
+      history.push(`/`);
+    }
   };
 
   const onFinishFailed = (errorInfo) => {
@@ -12,42 +38,54 @@ function Login(props) {
 
   return (
     <React.Fragment>
-      <Form
-        name="basic"
-        labelCol={{ span: 8 }}
-        wrapperCol={{ span: 16 }}
-        initialValues={{ remember: true }}
-        onFinish={onFinish}
-        onFinishFailed={onFinishFailed}
-        autoComplete="off"
-      >
-        <Form.Item
-          label="Username"
-          name="username"
-          rules={[{ required: true, message: "Please input your username!" }]}
-        >
-          <Input />
-        </Form.Item>
-        <Form.Item
-          label="Password"
-          name="password"
-          rules={[{ required: true, message: "Please input your password!" }]}
-        >
-          <Input.Password />
-        </Form.Item>
-        <Form.Item
-          name="remember"
-          valuePropName="checked"
-          wrapperCol={{ offset: 8, span: 16 }}
-        >
-          <Checkbox>Remember me</Checkbox>
-        </Form.Item>
-        <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-          <Button type="primary" htmlType="submit">
-            Submit
-          </Button>
-        </Form.Item>
-      </Form>
+      <Row>
+        <Col span={4}></Col>
+        <Col span={16}>
+          <Card title="Login">
+            <Form
+              name="basic"
+              labelCol={{ span: 8 }}
+              wrapperCol={{ span: 8 }}
+              initialValues={{ remember: true }}
+              onFinish={onFinish}
+              onFinishFailed={onFinishFailed}
+              autoComplete="off"
+            >
+              <Form.Item
+                label="Username"
+                name="username"
+                rules={[
+                  { required: true, message: "Please input your username!" },
+                ]}
+              >
+                <Input />
+              </Form.Item>
+              <Form.Item
+                label="Password"
+                name="password"
+                rules={[
+                  { required: true, message: "Please input your password!" },
+                ]}
+              >
+                <Input.Password />
+              </Form.Item>
+              <Form.Item
+                name="remember"
+                valuePropName="checked"
+                wrapperCol={{ offset: 8, span: 16 }}
+              >
+                <Checkbox>Remember me</Checkbox>
+              </Form.Item>
+              <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+                <Button type="primary" htmlType="submit">
+                  Submit
+                </Button>
+              </Form.Item>
+            </Form>
+          </Card>
+        </Col>
+        <Col span={4}></Col>
+      </Row>
     </React.Fragment>
   );
 }

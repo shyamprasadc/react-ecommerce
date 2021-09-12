@@ -18,11 +18,18 @@ function Cart(props) {
   const totalDiscountPrice = _.sumBy(products, "discountedPrice");
 
   const fetchProducts = async () => {
-    const response = await axios
-      .get("http://localhost:8080/api/cart")
-      .catch((err) => {
-        console.log("Err: ", err);
-      });
+    const accessToken = localStorage.getItem("accessToken");
+    const config = {
+      method: "GET",
+      url: "http://localhost:8080/api/cart",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    };
+    const response = await axios(config).catch((err) => {
+      console.log("Err: ", err);
+      history.push("/login");
+    });
     if (response) dispatch(setProducts(response.data));
   };
 

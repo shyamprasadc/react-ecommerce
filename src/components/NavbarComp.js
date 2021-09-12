@@ -1,4 +1,4 @@
-import React, { Component, useState } from "react";
+import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { Menu, Row, Col, Button, Space } from "antd";
 import {
@@ -13,15 +13,18 @@ function NavbarComp() {
   const [current, setCurrent] = useState("1");
 
   const handleMenuClick = (e) => {
-    console.log("click ", e);
     setCurrent(e.key);
+    history.push("/");
   };
+
   const handleWishlistClick = () => {
     history.push(`/wishlist`);
   };
+
   const handleProfileClick = () => {
-    // history.push(`/wishlist`);
+    history.push(`/login`);
   };
+
   const handleCartClick = () => {
     history.push(`/cart`);
   };

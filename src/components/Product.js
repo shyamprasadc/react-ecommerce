@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import {
@@ -17,17 +17,18 @@ import {
   selectedProduct,
   removeSelectedProduct,
 } from "../redux/actions/productsActions";
-// import products from "../assets/data/products.json";
 import Review from "./Review";
 const { Option } = Select;
 const { Title } = Typography;
 
 function Product(props) {
+  let history = useHistory();
   const { productId } = useParams();
   const [visible, setVisible] = useState(false);
-  // const [product] = products.filter((p) => p.productId == productId);
+  const [quantity, setQuantity] = useState(1);
   let product = useSelector((state) => state.product);
   const dispatch = useDispatch();
+
   const fetchOneProduct = async (id) => {
     const response = await axios
       .get(`http://localhost:8080/api/products/${id}`)
@@ -37,6 +38,27 @@ function Product(props) {
     if (response) dispatch(selectedProduct(response.data));
   };
 
+  const handleAddToCart = async (id) => {
+    const accessToken = localStorage.getItem("accessToken");
+    const body = {
+      productId,
+      quantity,
+    };
+    const config = {
+      method: "POST",
+      url: "http://localhost:8080/api/cart",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+      data: body,
+    };
+    const response = await axios(config).catch((err) => {
+      console.log("Err: ", err);
+      history.push("/login");
+    });
+    if (response) history.push("/cart");
+  };
+
   useEffect(() => {
     if (productId && productId !== "") fetchOneProduct(productId);
     return () => {
@@ -44,8 +66,8 @@ function Product(props) {
     };
   }, [productId]);
 
-  function handleChange(value) {
-    console.log(`selected ${value}`);
+  function handleQuantityChange(value) {
+    setQuantity(value);
   }
 
   return (
@@ -105,9 +127,9 @@ function Product(props) {
             <br />
             <Space>
               <Select
-                defaultValue={1}
+                defaultValue={quantity}
                 style={{ width: 120 }}
-                onChange={handleChange}
+                onChange={handleQuantityChange}
               >
                 <Option value={1}>1</Option>
                 <Option value={2}>2</Option>
@@ -115,7 +137,9 @@ function Product(props) {
                 <Option value={4}>4</Option>
                 <Option value={5}>5</Option>
               </Select>
-              <Button type="primary">Add to cart</Button>
+              <Button type="primary" onClick={() => handleAddToCart()}>
+                Add to cart
+              </Button>
             </Space>
           </div>
         </Col>

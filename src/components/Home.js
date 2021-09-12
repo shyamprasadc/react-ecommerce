@@ -30,6 +30,43 @@ function Home(props) {
     fetchProducts();
   }, []);
 
+  const handleAddToCart = async (id) => {
+    const accessToken = localStorage.getItem("accessToken");
+    const body = {
+      productId: id,
+      quantity: 1,
+    };
+    const config = {
+      method: "POST",
+      url: "http://localhost:8080/api/cart",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+      data: body,
+    };
+    const response = await axios(config).catch((err) => {
+      console.log("Err: ", err);
+    });
+    if (response) history.push("/cart");
+  };
+
+  const handleAddToWishlist = async (id) => {
+    const accessToken = localStorage.getItem("accessToken");
+    const body = { productId: id };
+    const config = {
+      method: "POST",
+      url: "http://localhost:8080/api/wishlist",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+      data: body,
+    };
+    const response = await axios(config).catch((err) => {
+      console.log("Err: ", err);
+    });
+    if (response) history.push("/wishlist");
+  };
+
   const handleImageClick = (id) => {
     history.push(`/products/${id}`);
   };
@@ -52,8 +89,14 @@ function Home(props) {
                   />
                 }
                 actions={[
-                  <ShoppingOutlined key="shopping" />,
-                  <HeartOutlined key="heart" />,
+                  <ShoppingOutlined
+                    key="shopping"
+                    onClick={() => handleAddToCart(product.productId)}
+                  />,
+                  <HeartOutlined
+                    key="heart"
+                    onClick={() => handleAddToWishlist(product.productId)}
+                  />,
                   <EllipsisOutlined key="ellipsis" />,
                 ]}
               >

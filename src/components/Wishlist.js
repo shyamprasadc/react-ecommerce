@@ -8,7 +8,6 @@ import {
   EllipsisOutlined,
   ShoppingOutlined,
 } from "@ant-design/icons";
-// import products from "../assets/data/products.json";
 import { setProducts } from "../redux/actions/productsActions";
 const { Meta } = Card;
 const { Title } = Typography;
@@ -19,11 +18,18 @@ function Wishlist(props) {
   const dispatch = useDispatch();
 
   const fetchProducts = async () => {
-    const response = await axios
-      .get("http://localhost:8080/api/wishlist")
-      .catch((err) => {
-        console.log("Err: ", err);
-      });
+    const accessToken = localStorage.getItem("accessToken");
+    const config = {
+      method: "GET",
+      url: "http://localhost:8080/api/wishlist",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    };
+    const response = await axios(config).catch((err) => {
+      console.log("Err: ", err);
+      history.push("/login");
+    });
     if (response) dispatch(setProducts(response.data));
   };
 
