@@ -1,4 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
 import {
   Row,
   Col,
@@ -10,15 +13,36 @@ import {
   Divider,
   Typography,
 } from "antd";
-import products from "../assets/data/products.json";
+import {
+  selectedProduct,
+  removeSelectedProduct,
+} from "../redux/actions/productsActions";
+// import products from "../assets/data/products.json";
 import Review from "./Review";
 const { Option } = Select;
 const { Title } = Typography;
 
 function Product(props) {
-  const paramsId = props.match.params.id;
-  const [product] = products.filter((p) => p.productId == paramsId);
+  const { productId } = useParams();
   const [visible, setVisible] = useState(false);
+  // const [product] = products.filter((p) => p.productId == productId);
+  let product = useSelector((state) => state.product);
+  const dispatch = useDispatch();
+  const fetchOneProduct = async (id) => {
+    const response = await axios
+      .get(`http://localhost:8080/api/products/${id}`)
+      .catch((err) => {
+        console.log("Err: ", err);
+      });
+    if (response) dispatch(selectedProduct(response.data));
+  };
+
+  useEffect(() => {
+    if (productId && productId !== "") fetchOneProduct(productId);
+    return () => {
+      dispatch(removeSelectedProduct());
+    };
+  }, [productId]);
 
   function handleChange(value) {
     console.log(`selected ${value}`);

@@ -1,10 +1,9 @@
 import React from "react";
 import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
 import "./App.css";
-import "bootstrap/dist/css/bootstrap.min.css";
 import "antd/dist/antd.css";
-import Home from "./components/Home";
 import { Layout } from "antd";
+import Home from "./components/Home";
 import Product from "./components/Product";
 import NotFound from "./components/NotFound";
 import NavbarComp from "./components/NavbarComp";
@@ -26,7 +25,7 @@ function App() {
             <Switch>
               <Route exact path="/" component={Home} />
               <Route path="/login" component={Login} />
-              <Route path="/products/:id" component={Product} />
+              <Route path="/products/:productId" component={Product} />
               <Route path="/wishlist" component={Wishlist} />
               <Route path="/cart" component={Cart} />
               <Route component={NotFound} />

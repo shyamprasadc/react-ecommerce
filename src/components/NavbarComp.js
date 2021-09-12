@@ -15,7 +15,7 @@ class NavbarComp extends Component {
       current: "1",
     };
 
-    this.handleMenuClick.bind(this);
+    this.handleWishlistClick = this.handleWishlistClick.bind(this);
   }
 
   handleMenuClick = (e) => {
