@@ -1,7 +1,7 @@
 import React from "react";
 import { Divider } from "antd";
 
-function FooterComp() {
+function FooterComp(props) {
   return (
     <React.Fragment>
       <Divider></Divider>

@@ -1,26 +1,40 @@
-import React, { Component } from "react";
+import React, { useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import { Row, Col, Card, Typography, Button } from "antd";
+import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
 import _ from "lodash";
 import user from "../assets/data/user.json";
-import products from "../assets/data/products.json";
+// import products from "../assets/data/products.json";
+import { setProducts } from "../redux/actions/productsActions";
 const { Title } = Typography;
 const { Meta } = Card;
 
-class Cart extends Component {
-  constructor(props) {
-    super(props);
+function Cart(props) {
+  let history = useHistory();
+  const products = useSelector((state) => state.allProducts.products);
+  const dispatch = useDispatch();
+  const totalRegularPrice = _.sumBy(products, "regularPrice");
+  const totalDiscountPrice = _.sumBy(products, "discountedPrice");
 
-    this.state = {};
-  }
-
-  totalRegularPrice = _.sumBy(products, "regularPrice");
-  totalDiscountPrice = _.sumBy(products, "discountedPrice");
-
-  handleImageClick = (id) => {
-    this.props.history.push(`products/${id}`);
+  const fetchProducts = async () => {
+    const response = await axios
+      .get("http://localhost:8080/api/cart")
+      .catch((err) => {
+        console.log("Err: ", err);
+      });
+    if (response) dispatch(setProducts(response.data));
   };
 
-  renderProduct = (product, index) => {
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
+  const handleImageClick = (id) => {
+    history.push(`/products/${id}`);
+  };
+
+  const renderProduct = (product, index) => {
     return (
       <React.Fragment>
         <Col span={24}>
@@ -31,7 +45,7 @@ class Cart extends Component {
                   alt="example"
                   src={product.image}
                   style={{ maxHeight: 150 }}
-                  onClick={() => this.handleImageClick(product.productId)}
+                  onClick={() => handleImageClick(product.productId)}
                 />
               </Col>
               <Col span={14}>
@@ -62,56 +76,54 @@ class Cart extends Component {
     );
   };
 
-  render() {
-    return (
-      <React.Fragment>
-        <Row>
-          <Col span={2}></Col>
-          <Col span={9}>
-            <Card style={{ width: "100%" }}>
-              <p>
-                Deliver to: <b>{`${user.name}, ${user.phone}`}</b>
-              </p>
-              <p>{`${user.address}, ${user.city},${user.postcode}`}</p>
-            </Card>
-            <br />
-            <br />
-            <Title level={5}>
-              My Shopping Cart{`(${products.length} Items)`}
-            </Title>
-            <br />
-            <Row gutter={[24, 24]}>{products.map(this.renderProduct)}</Row>
-          </Col>
-          <Col span={2}></Col>
-          <Col span={9}>
-            <Title level={5}>Price Details</Title>
-            <Card style={{ width: "100%" }}>
-              <Row>
-                <Col span={12} style={{ textAlign: "left" }}>
-                  <p>Total MRP</p>
-                  <p>Discount on MRP</p>
-                  <p>
-                    <b>Total Amount</b>
-                  </p>
-                </Col>
-                <Col span={12} style={{ textAlign: "right" }}>
-                  <p>₹{this.totalRegularPrice}</p>
-                  <p style={{ color: "orange" }}>-₹{this.totalDiscountPrice}</p>
-                  <p>
-                    <b>₹{this.totalRegularPrice - this.totalDiscountPrice}</b>
-                  </p>
-                </Col>
-              </Row>
-              <Button style={{ width: "100%" }} type="primary">
-                Place Order
-              </Button>
-            </Card>
-          </Col>
-          <Col span={2}></Col>
-        </Row>
-      </React.Fragment>
-    );
-  }
+  return (
+    <React.Fragment>
+      <Row>
+        <Col span={2}></Col>
+        <Col span={9}>
+          <Card style={{ width: "100%" }}>
+            <p>
+              Deliver to: <b>{`${user.name}, ${user.phone}`}</b>
+            </p>
+            <p>{`${user.address}, ${user.city},${user.postcode}`}</p>
+          </Card>
+          <br />
+          <br />
+          <Title level={5}>
+            My Shopping Cart{`(${products.length} Items)`}
+          </Title>
+          <br />
+          <Row gutter={[24, 24]}>{products.map(renderProduct)}</Row>
+        </Col>
+        <Col span={2}></Col>
+        <Col span={9}>
+          <Title level={5}>Price Details</Title>
+          <Card style={{ width: "100%" }}>
+            <Row>
+              <Col span={12} style={{ textAlign: "left" }}>
+                <p>Total MRP</p>
+                <p>Discount on MRP</p>
+                <p>
+                  <b>Total Amount</b>
+                </p>
+              </Col>
+              <Col span={12} style={{ textAlign: "right" }}>
+                <p>₹{totalRegularPrice}</p>
+                <p style={{ color: "orange" }}>-₹{totalDiscountPrice}</p>
+                <p>
+                  <b>₹{totalRegularPrice - totalDiscountPrice}</b>
+                </p>
+              </Col>
+            </Row>
+            <Button style={{ width: "100%" }} type="primary">
+              Place Order
+            </Button>
+          </Card>
+        </Col>
+        <Col span={2}></Col>
+      </Row>
+    </React.Fragment>
+  );
 }
 
 export default Cart;

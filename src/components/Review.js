@@ -2,7 +2,7 @@ import React from "react";
 import { Row, Col, Rate, Comment, Tooltip } from "antd";
 import moment from "moment";
 
-function Review() {
+function Review(props) {
   return (
     <React.Fragment>
       <Row>

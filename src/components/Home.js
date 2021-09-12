@@ -12,7 +12,7 @@ import {
 import { setProducts } from "../redux/actions/productsActions";
 const { Meta } = Card;
 
-function Home() {
+function Home(props) {
   let history = useHistory();
   const products = useSelector((state) => state.allProducts.products);
   const dispatch = useDispatch();
@@ -31,7 +31,7 @@ function Home() {
   }, []);
 
   const handleImageClick = (id) => {
-    history.push(`products/${id}`);
+    history.push(`/products/${id}`);
   };
 
   const renderProduct = (product, index) => {

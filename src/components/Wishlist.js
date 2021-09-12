@@ -1,20 +1,38 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { Card, Col, Row, Typography } from "antd";
+import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
 import {
   HeartOutlined,
   EllipsisOutlined,
   ShoppingOutlined,
 } from "@ant-design/icons";
-import products from "../assets/data/products.json";
+// import products from "../assets/data/products.json";
+import { setProducts } from "../redux/actions/productsActions";
 const { Meta } = Card;
 const { Title } = Typography;
 
-function Wishlist() {
+function Wishlist(props) {
   let history = useHistory();
+  const products = useSelector((state) => state.allProducts.products);
+  const dispatch = useDispatch();
 
-  const redirect = (id) => {
-    history.push(`products/${id}`);
+  const fetchProducts = async () => {
+    const response = await axios
+      .get("http://localhost:8080/api/wishlist")
+      .catch((err) => {
+        console.log("Err: ", err);
+      });
+    if (response) dispatch(setProducts(response.data));
+  };
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
+  const handleImageClick = (id) => {
+    history.push(`/products/${id}`);
   };
 
   const renderProduct = (product, index) => {
@@ -31,7 +49,7 @@ function Wishlist() {
                   <img
                     alt="example"
                     src={product.image}
-                    onClick={() => redirect(product.productId)}
+                    onClick={() => handleImageClick(product.productId)}
                   />
                 }
                 actions={[

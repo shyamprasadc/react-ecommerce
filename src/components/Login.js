@@ -1,7 +1,7 @@
 import React from "react";
 import { Form, Input, Button, Checkbox } from "antd";
 
-function Login() {
+function Login(props) {
   const onFinish = (values) => {
     console.log("Success:", values);
   };

@@ -1,4 +1,5 @@
-import React, { Component } from "react";
+import React, { Component, useState } from "react";
+import { useHistory } from "react-router-dom";
 import { Menu, Row, Col, Button, Space } from "antd";
 import {
   ShoppingCartOutlined,
@@ -7,67 +8,70 @@ import {
 } from "@ant-design/icons";
 import logo from "../assets/images/hon_logo_1.png";
 
-class NavbarComp extends Component {
-  constructor(props) {
-    super(props);
+function NavbarComp() {
+  let history = useHistory();
+  const [current, setCurrent] = useState("1");
 
-    this.state = {
-      current: "1",
-    };
-
-    this.handleWishlistClick = this.handleWishlistClick.bind(this);
-  }
-
-  handleMenuClick = (e) => {
+  const handleMenuClick = (e) => {
     console.log("click ", e);
-    this.setState({ current: e.key });
+    setCurrent(e.key);
+  };
+  const handleWishlistClick = () => {
+    history.push(`/wishlist`);
+  };
+  const handleProfileClick = () => {
+    // history.push(`/wishlist`);
+  };
+  const handleCartClick = () => {
+    history.push(`/cart`);
   };
 
-  handleWishlistClick = () => {
-    this.props.history.push(`wishlist`);
-  };
-
-  render() {
-    const { current } = this.state;
-    return (
-      <React.Fragment>
-        <Row>
-          <Col span={3}>
-            <img
-              alt="logo"
-              src={logo}
-              style={{ maxHeight: 30, marginLeft: 10 }}
+  return (
+    <React.Fragment>
+      <Row>
+        <Col span={3}>
+          <img
+            alt="logo"
+            src={logo}
+            style={{ maxHeight: 30, marginLeft: 10 }}
+          />
+        </Col>
+        <Col span={18}>
+          <Menu
+            onClick={handleMenuClick}
+            selectedKeys={[current]}
+            mode="horizontal"
+          >
+            <Menu.Item key="1">ALL</Menu.Item>
+            <Menu.Item key="2">DESKS</Menu.Item>
+            <Menu.Item key="3">CHAIRS</Menu.Item>
+            <Menu.Item key="4">STORAGE & ACCESSORIES</Menu.Item>
+            <Menu.Item key="5">SHOP BY SPACE</Menu.Item>
+            <Menu.Item key="6">DESIGN YOUR HOME OFFICE</Menu.Item>
+          </Menu>
+        </Col>
+        <Col span={3}>
+          <Space>
+            <Button
+              shape="circle"
+              icon={<HeartOutlined />}
+              onClick={() => handleWishlistClick()}
             />
-          </Col>
-          <Col span={18}>
-            <Menu
-              onClick={this.handleMenuClick}
-              selectedKeys={[current]}
-              mode="horizontal"
-            >
-              <Menu.Item key="1">ALL</Menu.Item>
-              <Menu.Item key="2">DESKS</Menu.Item>
-              <Menu.Item key="3">CHAIRS</Menu.Item>
-              <Menu.Item key="4">STORAGE & ACCESSORIES</Menu.Item>
-              <Menu.Item key="5">SHOP BY SPACE</Menu.Item>
-              <Menu.Item key="6">DESIGN YOUR HOME OFFICE</Menu.Item>
-            </Menu>
-          </Col>
-          <Col span={3}>
-            <Space>
-              <Button
-                shape="circle"
-                icon={<HeartOutlined />}
-                onClick={() => this.handleWishlistClick()}
-              />
-              <Button shape="circle" icon={<UserOutlined />} />
-              <Button shape="circle" icon={<ShoppingCartOutlined />} />
-            </Space>
-          </Col>
-        </Row>
-      </React.Fragment>
-    );
-  }
+            <Button
+              shape="circle"
+              icon={<UserOutlined />}
+              onClick={() => handleProfileClick()}
+            />
+            <Button
+              shape="circle"
+              icon={<ShoppingCartOutlined />}
+              onClick={() => handleCartClick()}
+            />
+          </Space>
+        </Col>
+      </Row>
+    </React.Fragment>
+  );
 }
 
 export default NavbarComp;
