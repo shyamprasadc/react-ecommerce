@@ -13,6 +13,7 @@ import {
   Divider,
   Typography,
 } from "antd";
+import { HeartOutlined } from "@ant-design/icons";
 import {
   selectedProduct,
   removeSelectedProduct,
@@ -57,6 +58,23 @@ function Product(props) {
       history.push("/login");
     });
     if (response) history.push("/cart");
+  };
+
+  const handleAddToWishlist = async (id) => {
+    const accessToken = localStorage.getItem("accessToken");
+    const body = { productId: id };
+    const config = {
+      method: "POST",
+      url: "http://localhost:8080/api/wishlist",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+      data: body,
+    };
+    const response = await axios(config).catch((err) => {
+      console.log("Err: ", err);
+    });
+    if (response) history.push("/wishlist");
   };
 
   useEffect(() => {
@@ -114,6 +132,12 @@ function Product(props) {
                 %
               </span>
             </Title>
+            <br />
+            <Button
+              shape="circle"
+              icon={<HeartOutlined />}
+              onClick={() => handleAddToWishlist(product.productId)}
+            />
             <br />
             <br />
             <Title level={5}>Select size</Title>

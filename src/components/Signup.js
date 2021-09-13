@@ -1,7 +1,8 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
-import { Form, Input, Select, Button, Card } from "antd";
+import { Form, Input, Select, Button, Card, notification } from "antd";
+import { SmileOutlined } from "@ant-design/icons";
 const { Option } = Select;
 
 const formItemLayout = {
@@ -39,6 +40,14 @@ function Signup() {
   let history = useHistory();
   const [form] = Form.useForm();
 
+  const openNotification = () => {
+    notification.open({
+      message: "Signup Success",
+      description: "Your account is created. Please login to continue.",
+      icon: <SmileOutlined style={{ color: "#108ee9" }} />,
+    });
+  };
+
   const signup = async (data) => {
     const body = {
       name: data.name,
@@ -60,6 +69,7 @@ function Signup() {
       history.push("/signup");
     });
     if (response) {
+      openNotification();
       history.push(`/login`);
     }
   };

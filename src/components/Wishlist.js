@@ -114,7 +114,7 @@ function Wishlist(props) {
 
   return (
     <React.Fragment>
-      <Title level={4}>My Wishlist</Title>
+      <Title level={4}>My Wishlist{`(${wishlist.length} Items)`}</Title>
       <br />
       <Row gutter={[16, 24]}>{wishlist.map(renderProduct)}</Row>
     </React.Fragment>
