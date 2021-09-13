@@ -6,3 +6,10 @@ export const setCart = (cart) => {
     payload: cart,
   };
 };
+
+export const updateCartCount = (count) => {
+  return {
+    type: ActionTypes.UPDATE_CART_COUNT,
+    payload: count,
+  };
+};

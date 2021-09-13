@@ -16,8 +16,8 @@ import {
 } from "antd";
 import { HeartOutlined } from "@ant-design/icons";
 import {
-  selectedProduct,
-  removeSelectedProduct,
+  setProductDetails,
+  removeProductDetails,
 } from "../redux/actions/productsActions";
 import Review from "./Review";
 const { Option } = Select;
@@ -28,7 +28,7 @@ function Product(props) {
   const { productId } = useParams();
   const [visible, setVisible] = useState(false);
   const [quantity, setQuantity] = useState(1);
-  let product = useSelector((state) => state.product);
+  let product = useSelector((state) => state.products.productDetails);
   const dispatch = useDispatch();
 
   const fetchOneProduct = async (id) => {
@@ -37,7 +37,7 @@ function Product(props) {
       .catch((err) => {
         console.log("Err: ", err);
       });
-    if (response) dispatch(selectedProduct(response.data));
+    if (response) dispatch(setProductDetails(response.data));
   };
 
   const handleAddToCart = async (id) => {
@@ -93,7 +93,7 @@ function Product(props) {
   useEffect(() => {
     if (productId && productId !== "") fetchOneProduct(productId);
     return () => {
-      dispatch(removeSelectedProduct());
+      dispatch(removeProductDetails());
     };
   }, [productId]);
 

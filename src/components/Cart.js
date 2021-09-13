@@ -13,7 +13,7 @@ const { Meta } = Card;
 function Cart(props) {
   const history = useHistory();
   const dispatch = useDispatch();
-  const cart = useSelector((state) => state.allCart.cart);
+  const cart = useSelector((state) => state.cart.all);
   const totalRegularPrice = _.sumBy(cart, "product.regularPrice");
   const totalDiscountPrice = _.sumBy(cart, "product.discountedPrice");
 

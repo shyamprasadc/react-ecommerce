@@ -10,7 +10,7 @@ const { Title } = Typography;
 
 function Wishlist(props) {
   const history = useHistory();
-  const wishlist = useSelector((state) => state.allWishlist.wishlist);
+  const wishlist = useSelector((state) => state.wishlist.all);
   const dispatch = useDispatch();
 
   const fetchWishlist = async () => {

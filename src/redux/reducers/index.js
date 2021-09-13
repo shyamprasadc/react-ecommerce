@@ -1,12 +1,13 @@
 import { combineReducers } from "redux";
-import { productsReducer, selectedProductReducer } from "./productsReducer";
+import { productsReducer } from "./productsReducer";
 import { cartReducer } from "./cartReducer";
 import { wishlistReducer } from "./wishlistReducer";
+import { userReducer } from "./userReducer";
 
 const reducers = combineReducers({
-  allProducts: productsReducer,
-  product: selectedProductReducer,
-  allCart: cartReducer,
-  allWishlist: wishlistReducer,
+  products: productsReducer,
+  cart: cartReducer,
+  wishlist: wishlistReducer,
+  user: userReducer,
 });
 export default reducers;

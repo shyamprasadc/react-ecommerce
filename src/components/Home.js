@@ -10,7 +10,7 @@ const { Meta } = Card;
 function Home(props) {
   const history = useHistory();
   const dispatch = useDispatch();
-  const products = useSelector((state) => state.allProducts.products);
+  const products = useSelector((state) => state.products.all);
 
   const fetchProducts = async () => {
     const response = await axios

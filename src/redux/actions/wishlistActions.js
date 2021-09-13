@@ -6,3 +6,10 @@ export const setWishlist = (wishlist) => {
     payload: wishlist,
   };
 };
+
+export const updateWishlistCount = (count) => {
+  return {
+    type: ActionTypes.UPDATE_WISHLIST_COUNT,
+    payload: count,
+  };
+};
