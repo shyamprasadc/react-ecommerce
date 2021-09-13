@@ -3,13 +3,8 @@ import { useHistory } from "react-router-dom";
 import { Card, Col, Row, Typography } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
-import {
-  HeartOutlined,
-  EllipsisOutlined,
-  ShoppingOutlined,
-} from "@ant-design/icons";
+import { DeleteOutlined, ShoppingOutlined } from "@ant-design/icons";
 import { setWishlist } from "../redux/actions/wishlistActions";
-import products from "../assets/data/products.json";
 const { Meta } = Card;
 const { Title } = Typography;
 
@@ -38,6 +33,24 @@ function Wishlist(props) {
     fetchWishlist();
   }, []);
 
+  const handleRemoveWishlistItemClick = async (id) => {
+    const accessToken = localStorage.getItem("accessToken");
+    const body = { wishlistId: id };
+    const config = {
+      method: "DELETE",
+      url: "http://localhost:8080/api/wishlist",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+      data: body,
+    };
+    const response = await axios(config).catch((err) => {
+      console.log("Err: ", err);
+      history.push("/login");
+    });
+    if (response) fetchWishlist();
+  };
+
   const handleImageClick = (id) => {
     history.push(`/products/${id}`);
   };
@@ -63,8 +76,12 @@ function Wishlist(props) {
                 }
                 actions={[
                   <ShoppingOutlined key="shopping" />,
-                  <HeartOutlined key="heart" />,
-                  <EllipsisOutlined key="ellipsis" />,
+                  <DeleteOutlined
+                    key="delete"
+                    onClick={() =>
+                      handleRemoveWishlistItemClick(wishlistItem.wishlistId)
+                    }
+                  />,
                 ]}
               >
                 <Meta

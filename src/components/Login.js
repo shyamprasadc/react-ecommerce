@@ -6,10 +6,6 @@ import axios from "axios";
 function Login(props) {
   let history = useHistory();
 
-  const onFinish = (values) => {
-    login(values);
-  };
-
   const login = async (data) => {
     const body = new URLSearchParams();
     body.append("username", data.username);
@@ -32,8 +28,16 @@ function Login(props) {
     }
   };
 
+  const onFinish = (values) => {
+    login(values);
+  };
+
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
+  };
+
+  const handleRegisterClick = () => {
+    history.push(`/signup`);
   };
 
   return (
@@ -78,8 +82,11 @@ function Login(props) {
               </Form.Item>
               <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
                 <Button type="primary" htmlType="submit">
-                  Submit
+                  Login
                 </Button>
+              </Form.Item>
+              <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+                Or <a onClick={() => handleRegisterClick()}>Register now!</a>
               </Form.Item>
             </Form>
           </Card>
