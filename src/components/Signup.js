@@ -1,8 +1,7 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
-import { Form, Input, Select, Button, Card, notification } from "antd";
-import { SmileOutlined } from "@ant-design/icons";
+import { Form, Input, Select, Button, Card, message } from "antd";
 const { Option } = Select;
 
 const formItemLayout = {
@@ -37,18 +36,11 @@ const tailFormItemLayout = {
 };
 
 function Signup() {
-  let history = useHistory();
+  const history = useHistory();
   const [form] = Form.useForm();
 
-  const openNotification = () => {
-    notification.open({
-      message: "Signup Success",
-      description: "Your account is created. Please login to continue.",
-      icon: <SmileOutlined style={{ color: "#108ee9" }} />,
-    });
-  };
-
   const signup = async (data) => {
+    message.loading("Signing up...", 0.5);
     const body = {
       name: data.name,
       email: data.email,
@@ -58,18 +50,18 @@ function Signup() {
       city: data.city,
       postcode: data.postcode,
     };
-
     const config = {
       method: "POST",
       url: "http://localhost:8080/api/users/register",
       data: body,
     };
     const response = await axios(config).catch((err) => {
+      message.error("Signup failed", 1);
       console.log("Err: ", err);
       history.push("/signup");
     });
     if (response) {
-      openNotification();
+      message.success("Signup success! Please login to continue", 1);
       history.push(`/login`);
     }
   };

@@ -12,6 +12,7 @@ import {
   Select,
   Divider,
   Typography,
+  message,
 } from "antd";
 import { HeartOutlined } from "@ant-design/icons";
 import {
@@ -23,7 +24,7 @@ const { Option } = Select;
 const { Title } = Typography;
 
 function Product(props) {
-  let history = useHistory();
+  const history = useHistory();
   const { productId } = useParams();
   const [visible, setVisible] = useState(false);
   const [quantity, setQuantity] = useState(1);
@@ -40,6 +41,8 @@ function Product(props) {
   };
 
   const handleAddToCart = async (id) => {
+    message.loading("Adding product to cart...", 0.5);
+
     const accessToken = localStorage.getItem("accessToken");
     const body = {
       productId,
@@ -54,13 +57,19 @@ function Product(props) {
       data: body,
     };
     const response = await axios(config).catch((err) => {
+      message.error("Product add to cart failed", 1);
       console.log("Err: ", err);
       history.push("/login");
     });
-    if (response) history.push("/cart");
+    if (response) {
+      message.success("Product added to cart", 1);
+      history.push("/cart");
+    }
   };
 
   const handleAddToWishlist = async (id) => {
+    message.loading("Adding product to wishlist...", 0.5);
+
     const accessToken = localStorage.getItem("accessToken");
     const body = { productId: id };
     const config = {
@@ -72,9 +81,13 @@ function Product(props) {
       data: body,
     };
     const response = await axios(config).catch((err) => {
+      message.error("Product add to wishlist failed", 1);
       console.log("Err: ", err);
     });
-    if (response) history.push("/wishlist");
+    if (response) {
+      message.success("Product added to wishlist", 1);
+      history.push("/wishlist");
+    }
   };
 
   useEffect(() => {

@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import { Card, Col, Row, Typography } from "antd";
+import { Card, Col, Row, Typography, message } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { DeleteOutlined, ShoppingOutlined } from "@ant-design/icons";
@@ -9,7 +9,7 @@ const { Meta } = Card;
 const { Title } = Typography;
 
 function Wishlist(props) {
-  let history = useHistory();
+  const history = useHistory();
   const wishlist = useSelector((state) => state.allWishlist.wishlist);
   const dispatch = useDispatch();
 
@@ -34,6 +34,8 @@ function Wishlist(props) {
   }, []);
 
   const handleRemoveWishlistItemClick = async (id) => {
+    message.loading("Removing product from wishlist...", 0.5);
+
     const accessToken = localStorage.getItem("accessToken");
     const body = { wishlistId: id };
     const config = {
@@ -45,10 +47,14 @@ function Wishlist(props) {
       data: body,
     };
     const response = await axios(config).catch((err) => {
+      message.error("Product remove from wishlist failed", 1);
       console.log("Err: ", err);
       history.push("/login");
     });
-    if (response) fetchWishlist();
+    if (response) {
+      message.success("Product removed from wishlist", 1);
+      fetchWishlist();
+    }
   };
 
   const handleImageClick = (id) => {

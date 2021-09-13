@@ -1,12 +1,13 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
-import { Form, Input, Button, Checkbox, Card, Row, Col } from "antd";
+import { Form, Input, Button, Checkbox, Card, Row, Col, message } from "antd";
 import axios from "axios";
 
 function Login(props) {
-  let history = useHistory();
+  const history = useHistory();
 
   const login = async (data) => {
+    message.loading("Logging in...", 0.5);
     const body = new URLSearchParams();
     body.append("username", data.username);
     body.append("password", data.password);
@@ -19,10 +20,12 @@ function Login(props) {
       data: body,
     };
     const response = await axios(config).catch((err) => {
+      message.error("Username or Password is wrong", 1);
       console.log("Err: ", err);
       history.push("/login");
     });
     if (response) {
+      message.success("Login success", 1);
       localStorage.setItem("accessToken", response.data.accessToken);
       history.push(`/`);
     }

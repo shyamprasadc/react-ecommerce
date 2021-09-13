@@ -1,21 +1,16 @@
 import React, { useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import { Card, Col, Row } from "antd";
+import { Card, Col, Row, message } from "antd";
+import { HeartOutlined, ShoppingOutlined } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
-import {
-  HeartOutlined,
-  EllipsisOutlined,
-  ShoppingOutlined,
-} from "@ant-design/icons";
-// import products from "../assets/data/products.json";
 import { setProducts } from "../redux/actions/productsActions";
 const { Meta } = Card;
 
 function Home(props) {
-  let history = useHistory();
-  const products = useSelector((state) => state.allProducts.products);
+  const history = useHistory();
   const dispatch = useDispatch();
+  const products = useSelector((state) => state.allProducts.products);
 
   const fetchProducts = async () => {
     const response = await axios
@@ -31,6 +26,7 @@ function Home(props) {
   }, []);
 
   const handleAddToCart = async (id) => {
+    message.loading("Adding product to cart...", 0.5);
     const accessToken = localStorage.getItem("accessToken");
     const body = {
       productId: id,
@@ -45,12 +41,17 @@ function Home(props) {
       data: body,
     };
     const response = await axios(config).catch((err) => {
+      message.error("Product add to cart failed", 1);
       console.log("Err: ", err);
     });
-    if (response) history.push("/cart");
+    if (response) {
+      message.success("Product added to cart", 1);
+      history.push("/cart");
+    }
   };
 
   const handleAddToWishlist = async (id) => {
+    message.loading("Adding product to wishlist...", 0.5);
     const accessToken = localStorage.getItem("accessToken");
     const body = { productId: id };
     const config = {
@@ -62,9 +63,13 @@ function Home(props) {
       data: body,
     };
     const response = await axios(config).catch((err) => {
+      message.error("Product add to wishlist failed", 1);
       console.log("Err: ", err);
     });
-    if (response) history.push("/wishlist");
+    if (response) {
+      message.success("Product added to wishlist", 1);
+      history.push("/wishlist");
+    }
   };
 
   const handleImageClick = (id) => {
@@ -97,7 +102,6 @@ function Home(props) {
                     key="heart"
                     onClick={() => handleAddToWishlist(product.productId)}
                   />,
-                  <EllipsisOutlined key="ellipsis" />,
                 ]}
               >
                 <Meta title={product.name} description={product.description} />

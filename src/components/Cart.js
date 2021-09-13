@@ -1,19 +1,19 @@
 import React, { useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import { Row, Col, Card, Typography, Button } from "antd";
-import { DeleteOutlined } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import _ from "lodash";
+import { Row, Col, Card, Typography, Button, message } from "antd";
+import { DeleteOutlined } from "@ant-design/icons";
 import user from "../assets/data/user.json";
 import { setCart } from "../redux/actions/cartActions";
 const { Title } = Typography;
 const { Meta } = Card;
 
 function Cart(props) {
-  let history = useHistory();
-  const cart = useSelector((state) => state.allCart.cart);
+  const history = useHistory();
   const dispatch = useDispatch();
+  const cart = useSelector((state) => state.allCart.cart);
   const totalRegularPrice = _.sumBy(cart, "product.regularPrice");
   const totalDiscountPrice = _.sumBy(cart, "product.discountedPrice");
 
@@ -38,6 +38,7 @@ function Cart(props) {
   }, []);
 
   const handleRemoveCartItemClick = async (id) => {
+    message.loading("Removing product from cart...", 0.5);
     const accessToken = localStorage.getItem("accessToken");
     const body = { cartId: id };
     const config = {
@@ -49,10 +50,14 @@ function Cart(props) {
       data: body,
     };
     const response = await axios(config).catch((err) => {
+      message.error("Product remove from failed", 1);
       console.log("Err: ", err);
       history.push("/login");
     });
-    if (response) fetchCart();
+    if (response) {
+      message.success("Product removed from cart", 1);
+      fetchCart();
+    }
   };
 
   const handleImageClick = (id) => {

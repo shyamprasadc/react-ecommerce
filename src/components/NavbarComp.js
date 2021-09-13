@@ -1,15 +1,16 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import { Menu, Row, Col, Button, Space } from "antd";
+import { Menu, Row, Col, Button, Space, message } from "antd";
 import {
   ShoppingCartOutlined,
   HeartOutlined,
   UserOutlined,
+  LogoutOutlined,
 } from "@ant-design/icons";
 import logo from "../assets/images/hon_logo_1.png";
 
 function NavbarComp() {
-  let history = useHistory();
+  const history = useHistory();
   const [current, setCurrent] = useState("1");
 
   const handleMenuClick = (e) => {
@@ -27,6 +28,14 @@ function NavbarComp() {
 
   const handleCartClick = () => {
     history.push(`/cart`);
+  };
+
+  const handleLogoutClick = () => {
+    message
+      .loading("Logging out..", 0.5)
+      .then(() => message.success("Logout success", 1));
+    localStorage.removeItem("accessToken");
+    history.push(`/`);
   };
 
   return (
@@ -62,13 +71,18 @@ function NavbarComp() {
             />
             <Button
               shape="circle"
+              icon={<ShoppingCartOutlined />}
+              onClick={() => handleCartClick()}
+            />
+            <Button
+              shape="circle"
               icon={<UserOutlined />}
               onClick={() => handleProfileClick()}
             />
             <Button
               shape="circle"
-              icon={<ShoppingCartOutlined />}
-              onClick={() => handleCartClick()}
+              icon={<LogoutOutlined />}
+              onClick={() => handleLogoutClick()}
             />
           </Space>
         </Col>
