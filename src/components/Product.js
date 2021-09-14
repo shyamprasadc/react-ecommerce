@@ -19,17 +19,25 @@ import {
   setProductDetails,
   removeProductDetails,
 } from "../redux/actions/productsActions";
+import { setCart, updateCartCount } from "../redux/actions/cartActions";
+import {
+  setWishlist,
+  updateWishlistCount,
+} from "../redux/actions/wishlistActions";
 import Review from "./Review";
 const { Option } = Select;
 const { Title } = Typography;
 
 function Product(props) {
   const history = useHistory();
+  const dispatch = useDispatch();
+
   const { productId } = useParams();
+
   const [visible, setVisible] = useState(false);
   const [quantity, setQuantity] = useState(1);
-  let product = useSelector((state) => state.products.productDetails);
-  const dispatch = useDispatch();
+
+  const product = useSelector((state) => state.products.productDetails);
 
   const fetchOneProduct = async (id) => {
     const response = await axios
@@ -40,12 +48,50 @@ function Product(props) {
     if (response) dispatch(setProductDetails(response.data));
   };
 
+  const fetchCart = async () => {
+    const accessToken = localStorage.getItem("accessToken");
+    const config = {
+      method: "GET",
+      url: "http://localhost:8080/api/cart",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    };
+    const response = await axios(config).catch((err) => {
+      console.log("Err: ", err);
+      history.push("/login");
+    });
+    if (response) {
+      dispatch(setCart(response.data));
+      dispatch(updateCartCount(response.data.length));
+    }
+  };
+
+  const fetchWishlist = async () => {
+    const accessToken = localStorage.getItem("accessToken");
+    const config = {
+      method: "GET",
+      url: "http://localhost:8080/api/wishlist",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    };
+    const response = await axios(config).catch((err) => {
+      console.log("Err: ", err);
+      history.push("/login");
+    });
+    if (response) {
+      dispatch(setWishlist(response.data));
+      dispatch(updateWishlistCount(response.data.length));
+    }
+  };
+
   const handleAddToCart = async (id) => {
     message.loading("Adding product to cart...", 0.5);
 
     const accessToken = localStorage.getItem("accessToken");
     const body = {
-      productId,
+      productId: id,
       quantity,
     };
     const config = {
@@ -63,7 +109,7 @@ function Product(props) {
     });
     if (response) {
       message.success("Product added to cart", 1);
-      history.push("/cart");
+      fetchCart();
     }
   };
 
@@ -86,12 +132,17 @@ function Product(props) {
     });
     if (response) {
       message.success("Product added to wishlist", 1);
-      history.push("/wishlist");
+      fetchWishlist();
     }
   };
 
   useEffect(() => {
     if (productId && productId !== "") fetchOneProduct(productId);
+    const accessToken = localStorage.getItem("accessToken");
+    if (accessToken) {
+      fetchCart();
+      fetchWishlist();
+    }
     return () => {
       dispatch(removeProductDetails());
     };
@@ -174,7 +225,10 @@ function Product(props) {
                 <Option value={4}>4</Option>
                 <Option value={5}>5</Option>
               </Select>
-              <Button type="primary" onClick={() => handleAddToCart()}>
+              <Button
+                type="primary"
+                onClick={() => handleAddToCart(product.productId)}
+              >
                 Add to cart
               </Button>
             </Space>

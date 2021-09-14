@@ -12,7 +12,9 @@ import logo from "../assets/images/hon_logo_1.png";
 
 function NavbarComp() {
   const history = useHistory();
+
   const [current, setCurrent] = useState("1");
+
   const cartCount = useSelector((state) => state.cart.count);
   const wishlistCount = useSelector((state) => state.wishlist.count);
 

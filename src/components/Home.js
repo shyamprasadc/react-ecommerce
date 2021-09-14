@@ -1,15 +1,21 @@
 import React, { useEffect } from "react";
 import { useHistory } from "react-router-dom";
+import axios from "axios";
 import { Card, Col, Row, message } from "antd";
 import { HeartOutlined, ShoppingOutlined } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
-import axios from "axios";
 import { setProducts } from "../redux/actions/productsActions";
+import { setCart, updateCartCount } from "../redux/actions/cartActions";
+import {
+  setWishlist,
+  updateWishlistCount,
+} from "../redux/actions/wishlistActions";
 const { Meta } = Card;
 
 function Home(props) {
   const history = useHistory();
   const dispatch = useDispatch();
+
   const products = useSelector((state) => state.products.all);
 
   const fetchProducts = async () => {
@@ -23,7 +29,50 @@ function Home(props) {
 
   useEffect(() => {
     fetchProducts();
+    const accessToken = localStorage.getItem("accessToken");
+    if (accessToken) {
+      fetchCart();
+      fetchWishlist();
+    }
   }, []);
+
+  const fetchCart = async () => {
+    const accessToken = localStorage.getItem("accessToken");
+    const config = {
+      method: "GET",
+      url: "http://localhost:8080/api/cart",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    };
+    const response = await axios(config).catch((err) => {
+      console.log("Err: ", err);
+      history.push("/login");
+    });
+    if (response) {
+      dispatch(setCart(response.data));
+      dispatch(updateCartCount(response.data.length));
+    }
+  };
+
+  const fetchWishlist = async () => {
+    const accessToken = localStorage.getItem("accessToken");
+    const config = {
+      method: "GET",
+      url: "http://localhost:8080/api/wishlist",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    };
+    const response = await axios(config).catch((err) => {
+      console.log("Err: ", err);
+      history.push("/login");
+    });
+    if (response) {
+      dispatch(setWishlist(response.data));
+      dispatch(updateWishlistCount(response.data.length));
+    }
+  };
 
   const handleAddToCart = async (id) => {
     message.loading("Adding product to cart...", 0.5);
@@ -43,10 +92,11 @@ function Home(props) {
     const response = await axios(config).catch((err) => {
       message.error("Product add to cart failed", 1);
       console.log("Err: ", err);
+      history.push("/login");
     });
     if (response) {
       message.success("Product added to cart", 1);
-      history.push("/cart");
+      fetchCart();
     }
   };
 
@@ -65,10 +115,11 @@ function Home(props) {
     const response = await axios(config).catch((err) => {
       message.error("Product add to wishlist failed", 1);
       console.log("Err: ", err);
+      history.push("/login");
     });
     if (response) {
       message.success("Product added to wishlist", 1);
-      history.push("/wishlist");
+      fetchWishlist();
     }
   };
 

@@ -1,17 +1,21 @@
 import React, { useEffect } from "react";
 import { useHistory } from "react-router-dom";
+import axios from "axios";
 import { Card, Col, Row, Typography, message } from "antd";
 import { useDispatch, useSelector } from "react-redux";
-import axios from "axios";
 import { DeleteOutlined, ShoppingOutlined } from "@ant-design/icons";
-import { setWishlist } from "../redux/actions/wishlistActions";
+import {
+  setWishlist,
+  updateWishlistCount,
+} from "../redux/actions/wishlistActions";
 const { Meta } = Card;
 const { Title } = Typography;
 
 function Wishlist(props) {
   const history = useHistory();
-  const wishlist = useSelector((state) => state.wishlist.all);
   const dispatch = useDispatch();
+
+  const wishlist = useSelector((state) => state.wishlist.all);
 
   const fetchWishlist = async () => {
     const accessToken = localStorage.getItem("accessToken");
@@ -26,7 +30,10 @@ function Wishlist(props) {
       console.log("Err: ", err);
       history.push("/login");
     });
-    if (response) dispatch(setWishlist(response.data));
+    if (response) {
+      dispatch(setWishlist(response.data));
+      dispatch(updateWishlistCount(response.data.length));
+    }
   };
 
   useEffect(() => {

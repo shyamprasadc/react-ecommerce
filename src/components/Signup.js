@@ -37,6 +37,7 @@ const tailFormItemLayout = {
 
 function Signup() {
   const history = useHistory();
+
   const [form] = Form.useForm();
 
   const signup = async (data) => {

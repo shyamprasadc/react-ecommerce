@@ -6,15 +6,17 @@ import _ from "lodash";
 import { Row, Col, Card, Typography, Button, message } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
 import { setUserDetails } from "../redux/actions/userActions";
-import { setCart } from "../redux/actions/cartActions";
+import { setCart, updateCartCount } from "../redux/actions/cartActions";
 const { Title } = Typography;
 const { Meta } = Card;
 
 function Cart(props) {
   const history = useHistory();
   const dispatch = useDispatch();
+
   const userDetails = useSelector((state) => state.user.userDetails);
   const cart = useSelector((state) => state.cart.all);
+
   const totalRegularPrice = _.sumBy(cart, "product.regularPrice");
   const totalDiscountPrice = _.sumBy(cart, "product.discountedPrice");
 
@@ -31,7 +33,10 @@ function Cart(props) {
       console.log("Err: ", err);
       history.push("/login");
     });
-    if (response) dispatch(setCart(response.data));
+    if (response) {
+      dispatch(setCart(response.data));
+      dispatch(updateCartCount(response.data.length));
+    }
   };
 
   const fetchUserDetails = async () => {
