@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import { Menu, Row, Col, Button, Space, message } from "antd";
+import { useSelector } from "react-redux";
+import { Menu, Row, Col, Button, Space, Badge, message } from "antd";
 import {
   ShoppingCartOutlined,
   HeartOutlined,
@@ -12,6 +13,8 @@ import logo from "../assets/images/hon_logo_1.png";
 function NavbarComp() {
   const history = useHistory();
   const [current, setCurrent] = useState("1");
+  const cartCount = useSelector((state) => state.cart.count);
+  const wishlistCount = useSelector((state) => state.wishlist.count);
 
   const handleMenuClick = (e) => {
     setCurrent(e.key);
@@ -64,16 +67,20 @@ function NavbarComp() {
         </Col>
         <Col span={3}>
           <Space>
-            <Button
-              shape="circle"
-              icon={<HeartOutlined />}
-              onClick={() => handleWishlistClick()}
-            />
-            <Button
-              shape="circle"
-              icon={<ShoppingCartOutlined />}
-              onClick={() => handleCartClick()}
-            />
+            <Badge size="small" count={wishlistCount}>
+              <Button
+                shape="circle"
+                icon={<HeartOutlined />}
+                onClick={() => handleWishlistClick()}
+              />
+            </Badge>
+            <Badge size="small" count={cartCount}>
+              <Button
+                shape="circle"
+                icon={<ShoppingCartOutlined />}
+                onClick={() => handleCartClick()}
+              />
+            </Badge>
             <Button
               shape="circle"
               icon={<UserOutlined />}
