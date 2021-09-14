@@ -5,7 +5,7 @@ import axios from "axios";
 import _ from "lodash";
 import { Row, Col, Card, Typography, Button, message } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
-import user from "../assets/data/user.json";
+import { setUserDetails } from "../redux/actions/userActions";
 import { setCart } from "../redux/actions/cartActions";
 const { Title } = Typography;
 const { Meta } = Card;
@@ -13,6 +13,7 @@ const { Meta } = Card;
 function Cart(props) {
   const history = useHistory();
   const dispatch = useDispatch();
+  const userDetails = useSelector((state) => state.user.userDetails);
   const cart = useSelector((state) => state.cart.all);
   const totalRegularPrice = _.sumBy(cart, "product.regularPrice");
   const totalDiscountPrice = _.sumBy(cart, "product.discountedPrice");
@@ -33,7 +34,24 @@ function Cart(props) {
     if (response) dispatch(setCart(response.data));
   };
 
+  const fetchUserDetails = async () => {
+    const accessToken = localStorage.getItem("accessToken");
+    const config = {
+      method: "GET",
+      url: "http://localhost:8080/api/users/profile",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    };
+    const response = await axios(config).catch((err) => {
+      console.log("Err: ", err);
+      history.push("/login");
+    });
+    if (response) dispatch(setUserDetails(response.data));
+  };
+
   useEffect(() => {
+    fetchUserDetails();
     fetchCart();
   }, []);
 
@@ -124,9 +142,12 @@ function Cart(props) {
         <Col span={9}>
           <Card style={{ width: "100%" }}>
             <p>
-              Deliver to: <b>{`${user.name}, ${user.phone}`}</b>
+              Deliver to:{" "}
+              <b>
+                {`${userDetails.name}, ${userDetails.phone}, ${userDetails.email}`}
+              </b>
             </p>
-            <p>{`${user.address}, ${user.city},${user.postcode}`}</p>
+            <p>{`${userDetails.address}, ${userDetails.city},${userDetails.postcode}`}</p>
           </Card>
           <br />
           <br />
