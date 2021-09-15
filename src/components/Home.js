@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import axios from "axios";
 import { Card, Col, Row, message } from "antd";
+import axios from "axios";
 import { HeartOutlined, ShoppingOutlined } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { setProducts } from "../redux/actions/productsActions";
@@ -20,7 +20,7 @@ function Home(props) {
 
   const fetchProducts = async () => {
     const response = await axios
-      .get("http://localhost:8080/api/products")
+      .get("https://ecommerce-app-locus.herokuapp.com/api/products")
       .catch((err) => {
         console.log("Err: ", err);
       });
@@ -40,7 +40,7 @@ function Home(props) {
     const accessToken = localStorage.getItem("accessToken");
     const config = {
       method: "GET",
-      url: "http://localhost:8080/api/cart",
+      url: "https://ecommerce-app-locus.herokuapp.com/api/cart",
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
@@ -59,7 +59,7 @@ function Home(props) {
     const accessToken = localStorage.getItem("accessToken");
     const config = {
       method: "GET",
-      url: "http://localhost:8080/api/wishlist",
+      url: "https://ecommerce-app-locus.herokuapp.com/api/wishlist",
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
@@ -83,7 +83,7 @@ function Home(props) {
     };
     const config = {
       method: "POST",
-      url: "http://localhost:8080/api/cart",
+      url: "https://ecommerce-app-locus.herokuapp.com/api/cart",
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
@@ -106,7 +106,7 @@ function Home(props) {
     const body = { productId: id };
     const config = {
       method: "POST",
-      url: "http://localhost:8080/api/wishlist",
+      url: "https://ecommerce-app-locus.herokuapp.com/api/wishlist",
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },

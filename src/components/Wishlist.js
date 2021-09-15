@@ -22,7 +22,7 @@ function Wishlist(props) {
     const accessToken = localStorage.getItem("accessToken");
     const config = {
       method: "GET",
-      url: "http://localhost:8080/api/wishlist",
+      url: "https://ecommerce-app-locus.herokuapp.com/api/wishlist",
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
@@ -45,7 +45,7 @@ function Wishlist(props) {
     const accessToken = localStorage.getItem("accessToken");
     const config = {
       method: "GET",
-      url: "http://localhost:8080/api/cart",
+      url: "https://ecommerce-app-locus.herokuapp.com/api/cart",
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
@@ -69,7 +69,7 @@ function Wishlist(props) {
     };
     const config = {
       method: "POST",
-      url: "http://localhost:8080/api/cart",
+      url: "https://ecommerce-app-locus.herokuapp.com/api/cart",
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
@@ -93,7 +93,7 @@ function Wishlist(props) {
     const body = { wishlistId: id };
     const config = {
       method: "DELETE",
-      url: "http://localhost:8080/api/wishlist",
+      url: "https://ecommerce-app-locus.herokuapp.com/api/wishlist",
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
