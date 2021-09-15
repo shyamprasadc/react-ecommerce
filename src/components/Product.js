@@ -57,7 +57,7 @@ function Product(props) {
       if (response.data.groupId) {
         await fetchProductGroup(response.data.groupId);
       } else {
-        dispatch(setProductGroup([product]));
+        dispatch(setProductGroup([response.data]));
       }
     }
   };
@@ -172,7 +172,7 @@ function Product(props) {
       dispatch(removeProductDetails());
       dispatch(removeProductGroup());
     };
-  }, [selectedProductId]);
+  }, [productId]);
 
   function handleQuantityChange(value) {
     setQuantity(value);
@@ -180,7 +180,7 @@ function Product(props) {
 
   const handleProductChange = (e) => {
     setSelectedProductId(e.target.value);
-    history.push(`/products/${e.target.value}`);
+    // history.push(`/products/${e.target.value}`);
     fetchOneProduct(e.target.value);
   };
 
