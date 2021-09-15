@@ -10,7 +10,7 @@ export const updateWishlist = async () => {
   const accessToken = localStorage.getItem("accessToken");
   const config = {
     method: "GET",
-    url: "https://ecommerce-app-locus.herokuapp.com/api/wishlist",
+    url: "https://ecommerce-app-locus-backend.herokuapp.com/api/wishlist",
     headers: {
       Authorization: `Bearer ${accessToken}`,
     },

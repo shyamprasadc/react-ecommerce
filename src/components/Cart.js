@@ -24,7 +24,7 @@ function Cart(props) {
     const accessToken = localStorage.getItem("accessToken");
     const config = {
       method: "GET",
-      url: "https://ecommerce-app-locus.herokuapp.com/api/cart",
+      url: "https://ecommerce-app-locus-backend.herokuapp.com/api/cart",
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
@@ -43,7 +43,7 @@ function Cart(props) {
     const accessToken = localStorage.getItem("accessToken");
     const config = {
       method: "GET",
-      url: "https://ecommerce-app-locus.herokuapp.com/api/users/profile",
+      url: "https://ecommerce-app-locus-backend.herokuapp.com/api/users/profile",
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
@@ -66,7 +66,7 @@ function Cart(props) {
     const body = { cartId: id };
     const config = {
       method: "DELETE",
-      url: "https://ecommerce-app-locus.herokuapp.com/api/cart",
+      url: "https://ecommerce-app-locus-backend.herokuapp.com/api/cart",
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },

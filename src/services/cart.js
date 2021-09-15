@@ -10,7 +10,7 @@ export const updateCart = async () => {
   const accessToken = localStorage.getItem("accessToken");
   const config = {
     method: "GET",
-    url: "https://ecommerce-app-locus.herokuapp.com/api/cart",
+    url: "https://ecommerce-app-locus-backend.herokuapp.com/api/cart",
     headers: {
       Authorization: `Bearer ${accessToken}`,
     },

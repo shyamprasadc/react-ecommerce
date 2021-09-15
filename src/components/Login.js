@@ -20,7 +20,7 @@ function Login(props) {
     body.append("password", data.password);
     const config = {
       method: "POST",
-      url: "https://ecommerce-app-locus.herokuapp.com/api/auth/login",
+      url: "https://ecommerce-app-locus-backend.herokuapp.com/api/auth/login",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
       },
@@ -44,7 +44,7 @@ function Login(props) {
     const accessToken = localStorage.getItem("accessToken");
     const config = {
       method: "GET",
-      url: "https://ecommerce-app-locus.herokuapp.com/api/cart",
+      url: "https://ecommerce-app-locus-backend.herokuapp.com/api/cart",
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
@@ -63,7 +63,7 @@ function Login(props) {
     const accessToken = localStorage.getItem("accessToken");
     const config = {
       method: "GET",
-      url: "https://ecommerce-app-locus.herokuapp.com/api/wishlist",
+      url: "https://ecommerce-app-locus-backend.herokuapp.com/api/wishlist",
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },

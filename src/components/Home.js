@@ -20,7 +20,7 @@ function Home(props) {
 
   const fetchProducts = async () => {
     const response = await axios
-      .get("https://ecommerce-app-locus.herokuapp.com/api/products")
+      .get("https://ecommerce-app-locus-backend.herokuapp.com/api/products")
       .catch((err) => {
         console.log("Err: ", err);
       });
@@ -40,7 +40,7 @@ function Home(props) {
     const accessToken = localStorage.getItem("accessToken");
     const config = {
       method: "GET",
-      url: "https://ecommerce-app-locus.herokuapp.com/api/cart",
+      url: "https://ecommerce-app-locus-backend.herokuapp.com/api/cart",
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
@@ -59,7 +59,7 @@ function Home(props) {
     const accessToken = localStorage.getItem("accessToken");
     const config = {
       method: "GET",
-      url: "https://ecommerce-app-locus.herokuapp.com/api/wishlist",
+      url: "https://ecommerce-app-locus-backend.herokuapp.com/api/wishlist",
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
@@ -83,7 +83,7 @@ function Home(props) {
     };
     const config = {
       method: "POST",
-      url: "https://ecommerce-app-locus.herokuapp.com/api/cart",
+      url: "https://ecommerce-app-locus-backend.herokuapp.com/api/cart",
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
@@ -106,7 +106,7 @@ function Home(props) {
     const body = { productId: id };
     const config = {
       method: "POST",
-      url: "https://ecommerce-app-locus.herokuapp.com/api/wishlist",
+      url: "https://ecommerce-app-locus-backend.herokuapp.com/api/wishlist",
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },

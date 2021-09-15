@@ -48,7 +48,9 @@ function Product(props) {
 
   const fetchOneProduct = async (id) => {
     const response = await axios
-      .get(`https://ecommerce-app-locus.herokuapp.com/api/products/${id}`)
+      .get(
+        `https://ecommerce-app-locus-backend.herokuapp.com/api/products/${id}`
+      )
       .catch((err) => {
         console.log("Err: ", err);
       });
@@ -65,7 +67,7 @@ function Product(props) {
   const fetchProductGroup = async (id) => {
     const response = await axios
       .get(
-        `https://ecommerce-app-locus.herokuapp.com/api/products/groups/${id}`
+        `https://ecommerce-app-locus-backend.herokuapp.com/api/products/groups/${id}`
       )
       .catch((err) => {
         console.log("Err: ", err);
@@ -77,7 +79,7 @@ function Product(props) {
     const accessToken = localStorage.getItem("accessToken");
     const config = {
       method: "GET",
-      url: "https://ecommerce-app-locus.herokuapp.com/api/cart",
+      url: "https://ecommerce-app-locus-backend.herokuapp.com/api/cart",
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
@@ -96,7 +98,7 @@ function Product(props) {
     const accessToken = localStorage.getItem("accessToken");
     const config = {
       method: "GET",
-      url: "https://ecommerce-app-locus.herokuapp.com/api/wishlist",
+      url: "https://ecommerce-app-locus-backend.herokuapp.com/api/wishlist",
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
@@ -121,7 +123,7 @@ function Product(props) {
     };
     const config = {
       method: "POST",
-      url: "https://ecommerce-app-locus.herokuapp.com/api/cart",
+      url: "https://ecommerce-app-locus-backend.herokuapp.com/api/cart",
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
@@ -145,7 +147,7 @@ function Product(props) {
     const body = { productId: id };
     const config = {
       method: "POST",
-      url: "https://ecommerce-app-locus.herokuapp.com/api/wishlist",
+      url: "https://ecommerce-app-locus-backend.herokuapp.com/api/wishlist",
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },

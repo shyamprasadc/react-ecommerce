@@ -53,7 +53,7 @@ function Signup() {
     };
     const config = {
       method: "POST",
-      url: "https://ecommerce-app-locus.herokuapp.com/api/users/register",
+      url: "https://ecommerce-app-locus-backend.herokuapp.com/api/users/register",
       data: body,
     };
     const response = await axios(config).catch((err) => {
