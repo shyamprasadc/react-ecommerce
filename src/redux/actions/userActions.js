@@ -6,3 +6,7 @@ export const setUserDetails = (user) => {
     payload: user,
   };
 };
+
+export const removeUserDetails = () => {
+  return { type: ActionTypes.REMOVE_USER_DETAILS };
+};

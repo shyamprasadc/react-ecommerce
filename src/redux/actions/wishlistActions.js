@@ -7,6 +7,10 @@ export const setWishlist = (wishlist) => {
   };
 };
 
+export const removeWishlist = () => {
+  return { type: ActionTypes.REMOVE_WISHLIST };
+};
+
 export const updateWishlistCount = (count) => {
   return {
     type: ActionTypes.UPDATE_WISHLIST_COUNT,

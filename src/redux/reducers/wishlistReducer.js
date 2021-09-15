@@ -8,6 +8,8 @@ export const wishlistReducer = (state = intialState, { type, payload }) => {
   switch (type) {
     case ActionTypes.SET_WISHLIST:
       return { ...state, all: payload };
+    case ActionTypes.REMOVE_WISHLIST:
+      return { ...state, all: [], count: 0 };
     case ActionTypes.UPDATE_WISHLIST_COUNT:
       return { ...state, count: payload };
     default:

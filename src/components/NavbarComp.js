@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Menu, Row, Col, Button, Space, Badge, message } from "antd";
 import {
   ShoppingCartOutlined,
@@ -9,9 +9,13 @@ import {
   LogoutOutlined,
 } from "@ant-design/icons";
 import logo from "../assets/images/hon_logo_1.png";
+import { removeCart } from "../redux/actions/cartActions";
+import { removeWishlist } from "../redux/actions/wishlistActions";
+import { removeUserDetails } from "../redux/actions/userActions";
 
 function NavbarComp() {
   const history = useHistory();
+  const dispatch = useDispatch();
 
   const [current, setCurrent] = useState("1");
 
@@ -40,6 +44,9 @@ function NavbarComp() {
       .loading("Logging out..", 0.5)
       .then(() => message.success("Logout success", 1));
     localStorage.removeItem("accessToken");
+    dispatch(removeUserDetails());
+    dispatch(removeCart());
+    dispatch(removeWishlist());
     history.push(`/`);
   };
 
