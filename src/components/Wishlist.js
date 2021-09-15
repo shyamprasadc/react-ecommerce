@@ -127,9 +127,9 @@ function Wishlist(props) {
                 cover={
                   <img
                     alt="example"
-                    src={wishlistItem.product.image}
+                    src={wishlistItem?.product?.image}
                     onClick={() =>
-                      handleImageClick(wishlistItem.product.productId)
+                      handleImageClick(wishlistItem?.product?.productId)
                     }
                   />
                 }
@@ -137,32 +137,32 @@ function Wishlist(props) {
                   <ShoppingOutlined
                     key="shopping"
                     onClick={() =>
-                      handleAddToCart(wishlistItem.product.productId)
+                      handleAddToCart(wishlistItem?.product?.productId)
                     }
                   />,
                   <DeleteOutlined
                     key="delete"
                     onClick={() =>
-                      handleRemoveWishlistItemClick(wishlistItem.wishlistId)
+                      handleRemoveWishlistItemClick(wishlistItem?.wishlistId)
                     }
                   />,
                 ]}
               >
                 <Meta
-                  title={wishlistItem.product.name}
-                  description={wishlistItem.product.description}
+                  title={wishlistItem?.product?.name}
+                  description={wishlistItem?.product?.description}
                 />
                 <span style={{ marginInlineEnd: 10 }}>
-                  {wishlistItem.product.discountedPrice}
+                  {wishlistItem?.product?.discountedPrice}
                 </span>
                 <span style={{ textDecoration: "line-through" }}>
-                  {` ${wishlistItem.product.regularPrice} `}
+                  {` ${wishlistItem?.product?.regularPrice} `}
                 </span>
                 <span style={{ marginInlineStart: 10, color: "orange" }}>
                   {Math.round(
-                    ((wishlistItem.product.regularPrice -
-                      wishlistItem.product.discountedPrice) /
-                      wishlistItem.product.regularPrice) *
+                    ((wishlistItem?.product?.regularPrice -
+                      wishlistItem?.product?.discountedPrice) /
+                      wishlistItem?.product?.regularPrice) *
                       100
                   )}
                   %
@@ -178,7 +178,7 @@ function Wishlist(props) {
 
   return (
     <React.Fragment>
-      <Title level={4}>My Wishlist{`(${wishlist.length} Items)`}</Title>
+      <Title level={4}>My Wishlist{`(${wishlist?.length} Items)`}</Title>
       <br />
       <Row gutter={[16, 24]}>{wishlist.map(renderProduct)}</Row>
     </React.Fragment>

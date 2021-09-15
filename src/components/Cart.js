@@ -96,28 +96,28 @@ function Cart(props) {
               <Col span={10}>
                 <img
                   alt="example"
-                  src={cartItem.product.image}
+                  src={cartItem?.product?.image}
                   style={{ maxHeight: 150 }}
-                  onClick={() => handleImageClick(cartItem.product.productId)}
+                  onClick={() => handleImageClick(cartItem?.product?.productId)}
                 />
               </Col>
               <Col span={13}>
                 <Meta
                   title={cartItem.product.name}
-                  description={cartItem.product.description}
+                  description={cartItem?.product?.description}
                 />
                 <br />
                 <span style={{ marginInlineEnd: 10 }}>
-                  ₹{cartItem.product.discountedPrice}
+                  ₹{cartItem?.product?.discountedPrice}
                 </span>
                 <span style={{ textDecoration: "line-through", color: "grey" }}>
-                  {` ₹${cartItem.product.regularPrice} `}
+                  {` ₹${cartItem?.product?.regularPrice} `}
                 </span>
                 <span style={{ marginInlineStart: 10, color: "orange" }}>
                   {Math.round(
-                    ((cartItem.product.regularPrice -
-                      cartItem.product.discountedPrice) /
-                      cartItem.product.regularPrice) *
+                    ((cartItem?.product?.regularPrice -
+                      cartItem?.product?.discountedPrice) /
+                      cartItem?.product?.regularPrice) *
                       100
                   )}
                   %
@@ -130,7 +130,7 @@ function Cart(props) {
                 <Button
                   shape="circle"
                   icon={<DeleteOutlined />}
-                  onClick={() => handleRemoveCartItemClick(cartItem.cartId)}
+                  onClick={() => handleRemoveCartItemClick(cartItem?.cartId)}
                 />
               </Col>
             </Row>
@@ -149,14 +149,14 @@ function Cart(props) {
             <p>
               Deliver to:{" "}
               <b>
-                {`${userDetails.name}, ${userDetails.phone}, ${userDetails.email}`}
+                {`${userDetails?.name}, ${userDetails?.phone}, ${userDetails?.email}`}
               </b>
             </p>
-            <p>{`${userDetails.address}, ${userDetails.city},${userDetails.postcode}`}</p>
+            <p>{`${userDetails?.address}, ${userDetails?.city},${userDetails?.postcode}`}</p>
           </Card>
           <br />
           <br />
-          <Title level={5}>My Shopping Cart{`(${cart.length} Items)`}</Title>
+          <Title level={5}>My Shopping Cart{`(${cart?.length} Items)`}</Title>
           <br />
           <Row gutter={[24, 24]}>{cart.map(renderProduct)}</Row>
         </Col>

@@ -193,37 +193,37 @@ function Product(props) {
           <Image
             preview={{ visible: false }}
             width={400}
-            src={product.image}
+            src={product?.image}
             onClick={() => setVisible(true)}
           />
           <div style={{ display: "none" }}>
             <Image.PreviewGroup
               preview={{ visible, onVisibleChange: (vis) => setVisible(vis) }}
             >
-              <Image src={product.image} />
-              <Image src={product.image} />
-              <Image src={product.image} />
+              <Image src={product?.image} />
+              <Image src={product?.image} />
+              <Image src={product?.image} />
             </Image.PreviewGroup>
           </div>
         </Col>
         <Col span={9}>
-          <Title level={3}>{product.name}</Title>
-          <Title level={4}>{product.description}</Title>
+          <Title level={3}>{product?.name}</Title>
+          <Title level={4}>{product?.description}</Title>
           <Rate value={3} />
           <br />
           <br />
           <div>
             <Title level={5}>
               <span style={{ marginInlineEnd: 10 }}>
-                ₹{product.discountedPrice}
+                ₹{product?.discountedPrice}
               </span>
               <span style={{ textDecoration: "line-through", color: "grey" }}>
-                {` ₹${product.regularPrice} `}
+                {` ₹${product?.regularPrice} `}
               </span>
               <span style={{ marginInlineStart: 10, color: "orange" }}>
                 {Math.round(
-                  ((product.regularPrice - product.discountedPrice) /
-                    product.regularPrice) *
+                  ((product?.regularPrice - product?.discountedPrice) /
+                    product?.regularPrice) *
                     100
                 )}
                 %
@@ -233,7 +233,7 @@ function Product(props) {
             <Button
               shape="circle"
               icon={<HeartOutlined />}
-              onClick={() => handleAddToWishlist(product.productId)}
+              onClick={() => handleAddToWishlist(product?.productId)}
             />
             <br />
             <br />
@@ -244,10 +244,10 @@ function Product(props) {
             >
               {productGroup.map((product) => (
                 <Radio
-                  style={{ color: product.color }}
-                  value={product.productId}
+                  style={{ color: product?.color }}
+                  value={product?.productId}
                 >
-                  {product.color}
+                  {product?.color}
                 </Radio>
               ))}
             </Radio.Group>
@@ -267,7 +267,7 @@ function Product(props) {
               </Select>
               <Button
                 type="primary"
-                onClick={() => handleAddToCart(product.productId)}
+                onClick={() => handleAddToCart(product?.productId)}
               >
                 Add to cart
               </Button>
