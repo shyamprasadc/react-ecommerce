@@ -140,32 +140,36 @@ function Home(props) {
                 cover={
                   <img
                     alt="example"
-                    src={product.image}
-                    onClick={() => handleImageClick(product.productId)}
+                    src={product?.image}
+                    onClick={() => handleImageClick(product?.productId)}
                   />
                 }
+                ß
                 actions={[
                   <ShoppingOutlined
                     key="shopping"
-                    onClick={() => handleAddToCart(product.productId)}
+                    onClick={() => handleAddToCart(product?.productId)}
                   />,
                   <HeartOutlined
                     key="heart"
-                    onClick={() => handleAddToWishlist(product.productId)}
+                    onClick={() => handleAddToWishlist(product?.productId)}
                   />,
                 ]}
               >
-                <Meta title={product.name} description={product.description} />
+                <Meta
+                  title={product?.name}
+                  description={product?.description}
+                />
                 <span style={{ marginInlineEnd: 10 }}>
-                  ₹{product.discountedPrice}
+                  ₹{product?.discountedPrice}
                 </span>
                 <span style={{ textDecoration: "line-through", color: "grey" }}>
-                  {` ₹${product.regularPrice} `}
+                  {` ₹${product?.regularPrice} `}
                 </span>
                 <span style={{ marginInlineStart: 10, color: "orange" }}>
                   {Math.round(
-                    ((product.regularPrice - product.discountedPrice) /
-                      product.regularPrice) *
+                    ((product?.regularPrice - product?.discountedPrice) /
+                      product?.regularPrice) *
                       100
                   )}
                   %
