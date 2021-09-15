@@ -126,7 +126,7 @@ function Product(props) {
       data: body,
     };
     const response = await axios(config).catch((err) => {
-      message.error("Product add to cart failed", 1);
+      message.info("Please login to continue", 1);
       console.log("Err: ", err);
       history.push("/login");
     });
@@ -150,8 +150,9 @@ function Product(props) {
       data: body,
     };
     const response = await axios(config).catch((err) => {
-      message.error("Product add to wishlist failed", 1);
+      message.info("Please login to continue", 1);
       console.log("Err: ", err);
+      history.push("/login");
     });
     if (response) {
       message.success("Product added to wishlist", 1);

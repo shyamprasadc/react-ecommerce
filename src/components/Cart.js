@@ -73,7 +73,7 @@ function Cart(props) {
       data: body,
     };
     const response = await axios(config).catch((err) => {
-      message.error("Product remove from failed", 1);
+      message.info("Please login to continue", 1);
       console.log("Err: ", err);
       history.push("/login");
     });
