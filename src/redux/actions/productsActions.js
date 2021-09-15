@@ -19,3 +19,16 @@ export const removeProductDetails = () => {
     type: ActionTypes.REMOVE_PRODUCT_DETAILS,
   };
 };
+
+export const setProductGroup = (product) => {
+  return {
+    type: ActionTypes.SET_PRODUCT_GROUP,
+    payload: product,
+  };
+};
+
+export const removeProductGroup = () => {
+  return {
+    type: ActionTypes.REMOVE_PRODUCT_GROUP,
+  };
+};

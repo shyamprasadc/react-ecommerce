@@ -12,12 +12,15 @@ import {
   Select,
   Divider,
   Typography,
+  Radio,
   message,
 } from "antd";
 import { HeartOutlined } from "@ant-design/icons";
 import {
   setProductDetails,
   removeProductDetails,
+  setProductGroup,
+  removeProductGroup,
 } from "../redux/actions/productsActions";
 import { setCart, updateCartCount } from "../redux/actions/cartActions";
 import {
@@ -34,10 +37,14 @@ function Product(props) {
 
   const { productId } = useParams();
 
+  const [selectedProductId, setSelectedProductId] = useState(
+    parseInt(productId)
+  );
   const [visible, setVisible] = useState(false);
   const [quantity, setQuantity] = useState(1);
 
   const product = useSelector((state) => state.products.productDetails);
+  const productGroup = useSelector((state) => state.products.productGroup);
 
   const fetchOneProduct = async (id) => {
     const response = await axios
@@ -45,7 +52,23 @@ function Product(props) {
       .catch((err) => {
         console.log("Err: ", err);
       });
-    if (response) dispatch(setProductDetails(response.data));
+    if (response) {
+      dispatch(setProductDetails(response.data));
+      if (response.data.groupId) {
+        await fetchProductGroup(response.data.groupId);
+      } else {
+        dispatch(setProductGroup([product]));
+      }
+    }
+  };
+
+  const fetchProductGroup = async (id) => {
+    const response = await axios
+      .get(`http://localhost:8080/api/products/groups/${id}`)
+      .catch((err) => {
+        console.log("Err: ", err);
+      });
+    if (response) dispatch(setProductGroup(response.data));
   };
 
   const fetchCart = async () => {
@@ -138,19 +161,28 @@ function Product(props) {
 
   useEffect(() => {
     if (productId && productId !== "") fetchOneProduct(productId);
+
     const accessToken = localStorage.getItem("accessToken");
     if (accessToken) {
       fetchCart();
       fetchWishlist();
     }
+
     return () => {
       dispatch(removeProductDetails());
+      dispatch(removeProductGroup());
     };
-  }, [productId]);
+  }, [selectedProductId]);
 
   function handleQuantityChange(value) {
     setQuantity(value);
   }
+
+  const handleProductChange = (e) => {
+    setSelectedProductId(e.target.value);
+    history.push(`/products/${e.target.value}`);
+    fetchOneProduct(e.target.value);
+  };
 
   return (
     <React.Fragment>
@@ -204,13 +236,20 @@ function Product(props) {
             />
             <br />
             <br />
-            <Title level={5}>Select size</Title>
-            <Space>
-              <Button shape="circle">S</Button>
-              <Button shape="circle">M</Button>
-              <Button shape="circle">L</Button>
-              <Button shape="circle">XL</Button>
-            </Space>
+            <Title level={5}>Select Color</Title>
+            <Radio.Group
+              onChange={handleProductChange}
+              value={selectedProductId}
+            >
+              {productGroup.map((product) => (
+                <Radio
+                  style={{ color: product.color }}
+                  value={product.productId}
+                >
+                  {product.color}
+                </Radio>
+              ))}
+            </Radio.Group>
             <br />
             <br />
             <Space>
