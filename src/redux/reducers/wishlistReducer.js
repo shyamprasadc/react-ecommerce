@@ -5,7 +5,6 @@ const intialState = {
 };
 
 export const wishlistReducer = (state = intialState, { type, payload }) => {
-  console.log(type);
   switch (type) {
     case ActionTypes.SET_WISHLIST:
       return { ...state, all: payload };

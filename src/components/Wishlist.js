@@ -4,6 +4,7 @@ import axios from "axios";
 import { Card, Col, Row, Typography, message } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { DeleteOutlined, ShoppingOutlined } from "@ant-design/icons";
+import { setCart, updateCartCount } from "../redux/actions/cartActions";
 import {
   setWishlist,
   updateWishlistCount,
@@ -39,6 +40,51 @@ function Wishlist(props) {
   useEffect(() => {
     fetchWishlist();
   }, []);
+
+  const fetchCart = async () => {
+    const accessToken = localStorage.getItem("accessToken");
+    const config = {
+      method: "GET",
+      url: "http://localhost:8080/api/cart",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    };
+    const response = await axios(config).catch((err) => {
+      console.log("Err: ", err);
+      history.push("/login");
+    });
+    if (response) {
+      dispatch(setCart(response.data));
+      dispatch(updateCartCount(response.data.length));
+    }
+  };
+
+  const handleAddToCart = async (id) => {
+    message.loading("Adding product to cart...", 0.5);
+    const accessToken = localStorage.getItem("accessToken");
+    const body = {
+      productId: id,
+      quantity: 1,
+    };
+    const config = {
+      method: "POST",
+      url: "http://localhost:8080/api/cart",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+      data: body,
+    };
+    const response = await axios(config).catch((err) => {
+      message.error("Product add to cart failed", 1);
+      console.log("Err: ", err);
+      history.push("/login");
+    });
+    if (response) {
+      message.success("Product added to cart", 1);
+      fetchCart();
+    }
+  };
 
   const handleRemoveWishlistItemClick = async (id) => {
     message.loading("Removing product from wishlist...", 0.5);
@@ -88,7 +134,12 @@ function Wishlist(props) {
                   />
                 }
                 actions={[
-                  <ShoppingOutlined key="shopping" />,
+                  <ShoppingOutlined
+                    key="shopping"
+                    onClick={() =>
+                      handleAddToCart(wishlistItem.product.productId)
+                    }
+                  />,
                   <DeleteOutlined
                     key="delete"
                     onClick={() =>
