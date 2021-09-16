@@ -7,7 +7,39 @@ import {
   setWishlist,
   updateWishlistCount,
 } from "../redux/actions/wishlistActions";
-import { Form, Input, Button, Checkbox, Card, Row, Col, message } from "antd";
+import { Form, Input, Button, Checkbox, Typography, message } from "antd";
+const { Title } = Typography;
+
+const formItemLayout = {
+  labelCol: {
+    xs: {
+      span: 24,
+    },
+    sm: {
+      span: 8,
+    },
+  },
+  wrapperCol: {
+    xs: {
+      span: 24,
+    },
+    sm: {
+      span: 8,
+    },
+  },
+};
+const tailFormItemLayout = {
+  wrapperCol: {
+    xs: {
+      span: 24,
+      offset: 0,
+    },
+    sm: {
+      span: 16,
+      offset: 8,
+    },
+  },
+};
 
 function Login(props) {
   const history = useHistory();
@@ -92,57 +124,45 @@ function Login(props) {
 
   return (
     <React.Fragment>
-      <Row>
-        <Col span={4}></Col>
-        <Col span={16}>
-          <Card title="Login">
-            <Form
-              name="basic"
-              labelCol={{ span: 8 }}
-              wrapperCol={{ span: 8 }}
-              initialValues={{ remember: true }}
-              onFinish={onFinish}
-              onFinishFailed={onFinishFailed}
-              autoComplete="off"
-            >
-              <Form.Item
-                label="Username"
-                name="username"
-                rules={[
-                  { required: true, message: "Please input your username!" },
-                ]}
-              >
-                <Input />
-              </Form.Item>
-              <Form.Item
-                label="Password"
-                name="password"
-                rules={[
-                  { required: true, message: "Please input your password!" },
-                ]}
-              >
-                <Input.Password />
-              </Form.Item>
-              <Form.Item
-                name="remember"
-                valuePropName="checked"
-                wrapperCol={{ offset: 8, span: 16 }}
-              >
-                <Checkbox>Remember me</Checkbox>
-              </Form.Item>
-              <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-                <Button type="primary" htmlType="submit">
-                  Login
-                </Button>
-              </Form.Item>
-              <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-                Or <a onClick={() => handleRegisterClick()}>Register now!</a>
-              </Form.Item>
-            </Form>
-          </Card>
-        </Col>
-        <Col span={4}></Col>
-      </Row>
+      <Title level={4}>User Login</Title>
+      <Form
+        {...formItemLayout}
+        name="basic"
+        initialValues={{ remember: true }}
+        onFinish={onFinish}
+        onFinishFailed={onFinishFailed}
+        autoComplete="off"
+      >
+        <Form.Item
+          label="Username"
+          name="username"
+          rules={[{ required: true, message: "Please input your username!" }]}
+        >
+          <Input />
+        </Form.Item>
+        <Form.Item
+          label="Password"
+          name="password"
+          rules={[{ required: true, message: "Please input your password!" }]}
+        >
+          <Input.Password />
+        </Form.Item>
+        <Form.Item
+          name="remember"
+          valuePropName="checked"
+          {...tailFormItemLayout}
+        >
+          <Checkbox>Remember me</Checkbox>
+        </Form.Item>
+        <Form.Item {...tailFormItemLayout}>
+          <Button type="primary" htmlType="submit">
+            Login
+          </Button>
+        </Form.Item>
+        <Form.Item {...tailFormItemLayout}>
+          Or <a onClick={() => handleRegisterClick()}>Register now!</a>
+        </Form.Item>
+      </Form>
     </React.Fragment>
   );
 }

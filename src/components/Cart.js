@@ -92,9 +92,9 @@ function Cart(props) {
     return (
       <React.Fragment>
         <Col span={24}>
-          <Card hoverable style={{ height: 200 }}>
+          <Card hoverable style={{ width: "80%" }}>
             <Row>
-              <Col span={10}>
+              <Col xs={24} sm={24} md={10} lg={10} xl={10}>
                 <img
                   alt="example"
                   src={cartItem?.product?.image}
@@ -102,7 +102,7 @@ function Cart(props) {
                   onClick={() => handleImageClick(cartItem?.product?.productId)}
                 />
               </Col>
-              <Col span={13}>
+              <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                 <Meta
                   title={cartItem.product.name}
                   description={cartItem?.product?.description}
@@ -127,7 +127,7 @@ function Cart(props) {
                 <br />
                 <p>Quantity: 1</p>
               </Col>
-              <Col span={1}>
+              <Col xs={24} sm={24} md={2} lg={2} xl={2}>
                 <Button
                   shape="circle"
                   icon={<DeleteOutlined />}
@@ -144,9 +144,8 @@ function Cart(props) {
   return (
     <React.Fragment>
       <Row>
-        <Col span={2}></Col>
-        <Col span={9}>
-          <Card style={{ width: "100%" }}>
+        <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+          <Card style={{ maxWidth: "80%" }}>
             <p>
               Deliver to:{" "}
               <b>
@@ -161,10 +160,9 @@ function Cart(props) {
           <br />
           <Row gutter={[24, 24]}>{cart.map(renderProduct)}</Row>
         </Col>
-        <Col span={2}></Col>
-        <Col span={9}>
+        <Col xs={24} sm={24} md={12} lg={12} xl={12}>
           <Title level={5}>Price Details</Title>
-          <Card style={{ width: "100%" }}>
+          <Card style={{ maxWidth: "80%" }}>
             <Row>
               <Col span={12} style={{ textAlign: "left" }}>
                 <p>Total MRP</p>
@@ -181,12 +179,11 @@ function Cart(props) {
                 </p>
               </Col>
             </Row>
-            <Button style={{ width: "100%" }} type="primary">
+            <Button style={{ maxWidth: "80%" }} type="primary">
               Place Order
             </Button>
           </Card>
         </Col>
-        <Col span={2}></Col>
       </Row>
     </React.Fragment>
   );

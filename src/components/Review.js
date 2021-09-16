@@ -5,9 +5,8 @@ import moment from "moment";
 function Review(props) {
   return (
     <React.Fragment>
-      <Row>
-        <Col span={3}></Col>
-        <Col span={18}>
+      <Row justify="space-around">
+        <Col>
           <Comment
             author={<a href="#">Han Solo</a>}
             avatar={<Rate value={3} />}
@@ -26,7 +25,6 @@ function Review(props) {
             }
           />
         </Col>
-        <Col span={3}></Col>
       </Row>
     </React.Fragment>
   );

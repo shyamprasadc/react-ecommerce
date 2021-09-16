@@ -1,8 +1,9 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
-import { Form, Input, Select, Button, Card, message } from "antd";
+import { Form, Input, Select, Button, Card, Typography, message } from "antd";
 const { Option } = Select;
+const { Title } = Typography;
 
 const formItemLayout = {
   labelCol: {
@@ -84,7 +85,8 @@ function Signup() {
   );
 
   return (
-    <Card title="Login">
+    <React.Fragment>
+      <Title level={4}>Register New</Title>
       <Form
         {...formItemLayout}
         form={form}
@@ -236,7 +238,7 @@ function Signup() {
           </Button>
         </Form.Item>
       </Form>
-    </Card>
+    </React.Fragment>
   );
 }
 

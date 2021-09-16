@@ -192,93 +192,104 @@ function Product(props) {
   return (
     <React.Fragment>
       <Row>
-        <Col span={3}></Col>
-        <Col span={9}>
-          <Image
-            preview={{ visible: false }}
-            width={400}
-            src={product?.image}
-            onClick={() => setVisible(true)}
-          />
-          <div style={{ display: "none" }}>
-            <Image.PreviewGroup
-              preview={{ visible, onVisibleChange: (vis) => setVisible(vis) }}
-            >
-              <Image src={product?.image} />
-              <Image src={product?.image} />
-              <Image src={product?.image} />
-            </Image.PreviewGroup>
-          </div>
-        </Col>
-        <Col span={9}>
-          <Title level={3}>{product?.name}</Title>
-          <Title level={4}>{product?.description}</Title>
-          <Rate value={3} />
-          <br />
-          <br />
-          <div>
-            <Title level={5}>
-              <span style={{ marginInlineEnd: 10 }}>
-                ₹{product?.discountedPrice}
-              </span>
-              <span style={{ textDecoration: "line-through", color: "grey" }}>
-                {` ₹${product?.regularPrice} `}
-              </span>
-              <span style={{ marginInlineStart: 10, color: "orange" }}>
-                {Math.round(
-                  ((product?.regularPrice - product?.discountedPrice) /
-                    product?.regularPrice) *
-                    100
-                )}
-                %
-              </span>
-            </Title>
-            <br />
-            <Button
-              shape="circle"
-              icon={<HeartOutlined />}
-              onClick={() => handleAddToWishlist(product?.productId)}
-            />
-            <br />
-            <br />
-            <Title level={5}>Select Color</Title>
-            <Radio.Group
-              onChange={handleProductChange}
-              value={selectedProductId}
-            >
-              {productGroup.map((product) => (
-                <Radio
-                  style={{ color: product?.color }}
-                  value={product?.productId}
+        <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+          <Row justify="space-around">
+            <Col>
+              <Image
+                preview={{ visible: false }}
+                width={400}
+                src={product?.image}
+                onClick={() => setVisible(true)}
+              />
+              <div style={{ display: "none" }}>
+                <Image.PreviewGroup
+                  preview={{
+                    visible,
+                    onVisibleChange: (vis) => setVisible(vis),
+                  }}
                 >
-                  {product?.color}
-                </Radio>
-              ))}
-            </Radio.Group>
-            <br />
-            <br />
-            <Space>
-              <Select
-                defaultValue={quantity}
-                style={{ width: 120 }}
-                onChange={handleQuantityChange}
-              >
-                <Option value={1}>1</Option>
-                <Option value={2}>2</Option>
-                <Option value={3}>3</Option>
-                <Option value={4}>4</Option>
-                <Option value={5}>5</Option>
-              </Select>
-              <Button
-                type="primary"
-                onClick={() => handleAddToCart(product?.productId)}
-              >
-                Add to cart
-              </Button>
-            </Space>
-          </div>
+                  <Image src={product?.image} />
+                  <Image src={product?.image} />
+                  <Image src={product?.image} />
+                </Image.PreviewGroup>
+              </div>
+            </Col>
+          </Row>
         </Col>
-        <Col span={3}></Col>
+        <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+          <Row justify="start">
+            <Col>
+              <Title level={3}>{product?.name}</Title>
+              <Title level={4}>{product?.description}</Title>
+              <Rate value={3} />
+              <br />
+              <br />
+              <div>
+                <Title level={5}>
+                  <span style={{ marginInlineEnd: 10 }}>
+                    ₹{product?.discountedPrice}
+                  </span>
+                  <span
+                    style={{ textDecoration: "line-through", color: "grey" }}
+                  >
+                    {` ₹${product?.regularPrice} `}
+                  </span>
+                  <span style={{ marginInlineStart: 10, color: "orange" }}>
+                    {Math.round(
+                      ((product?.regularPrice - product?.discountedPrice) /
+                        product?.regularPrice) *
+                        100
+                    )}
+                    %
+                  </span>
+                </Title>
+                <br />
+                <Button
+                  shape="circle"
+                  icon={<HeartOutlined />}
+                  onClick={() => handleAddToWishlist(product?.productId)}
+                />
+                <br />
+                <br />
+                <Title level={5}>Select Color</Title>
+                <Radio.Group
+                  onChange={handleProductChange}
+                  value={selectedProductId}
+                >
+                  {productGroup.map((product) => (
+                    <Radio
+                      style={{ color: product?.color }}
+                      value={product?.productId}
+                    >
+                      {product?.color}
+                    </Radio>
+                  ))}
+                </Radio.Group>
+                <br />
+                <br />
+                <Space>
+                  <Select
+                    defaultValue={quantity}
+                    style={{ width: 120 }}
+                    onChange={handleQuantityChange}
+                  >
+                    <Option value={1}>1</Option>
+                    <Option value={2}>2</Option>
+                    <Option value={3}>3</Option>
+                    <Option value={4}>4</Option>
+                    <Option value={5}>5</Option>
+                  </Select>
+                  <Button
+                    type="primary"
+                    onClick={() => handleAddToCart(product?.productId)}
+                  >
+                    Add to cart
+                  </Button>
+                </Space>
+              </div>
+            </Col>
+          </Row>
+        </Col>
       </Row>
       <br />
       <Divider />

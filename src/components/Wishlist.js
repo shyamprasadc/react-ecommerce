@@ -118,7 +118,7 @@ function Wishlist(props) {
   const renderProduct = (wishlistItem, index) => {
     return (
       <React.Fragment>
-        <Col span={6}>
+        <Col xs={24} sm={12} md={8} lg={6} xl={6}>
           <Row>
             <Col span={2}></Col>
             <Col span={20}>
@@ -181,7 +181,14 @@ function Wishlist(props) {
     <React.Fragment>
       <Title level={4}>My Wishlist{`(${wishlist?.length} Items)`}</Title>
       <br />
-      <Row gutter={[16, 24]}>{wishlist.map(renderProduct)}</Row>
+      <Row
+        gutter={[
+          { xs: 8, sm: 16, md: 24, lg: 32 },
+          { xs: 8, sm: 16, md: 24, lg: 32 },
+        ]}
+      >
+        {wishlist.map(renderProduct)}
+      </Row>
     </React.Fragment>
   );
 }
