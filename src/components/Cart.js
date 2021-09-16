@@ -31,6 +31,7 @@ function Cart(props) {
     };
     const response = await axios(config).catch((err) => {
       console.log("Err: ", err);
+      message.info("Please login to continue", 1);
       history.push("/login");
     });
     if (response) {
@@ -56,8 +57,8 @@ function Cart(props) {
   };
 
   useEffect(() => {
-    fetchUserDetails();
     fetchCart();
+    fetchUserDetails();
   }, []);
 
   const handleRemoveCartItemClick = async (id) => {

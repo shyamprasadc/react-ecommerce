@@ -130,13 +130,13 @@ function Home(props) {
   const renderProduct = (product, index) => {
     return (
       <React.Fragment>
-        <Col span={6}>
+        <Col xs={24} sm={12} md={8} lg={6} xl={6}>
           <Row>
             <Col span={2}></Col>
             <Col span={20}>
               <Card
                 hoverable
-                style={{ width: 240 }}
+                style={{ maxWidth: 240 }}
                 cover={
                   <img
                     alt="example"
@@ -146,13 +146,13 @@ function Home(props) {
                 }
                 ß
                 actions={[
-                  <ShoppingOutlined
-                    key="shopping"
-                    onClick={() => handleAddToCart(product?.productId)}
-                  />,
                   <HeartOutlined
                     key="heart"
                     onClick={() => handleAddToWishlist(product?.productId)}
+                  />,
+                  <ShoppingOutlined
+                    key="shopping"
+                    onClick={() => handleAddToCart(product?.productId)}
                   />,
                 ]}
               >
@@ -185,7 +185,14 @@ function Home(props) {
 
   return (
     <React.Fragment>
-      <Row gutter={[16, 24]}>{products.map(renderProduct)}</Row>
+      <Row
+        gutter={[
+          { xs: 8, sm: 16, md: 24, lg: 32 },
+          { xs: 8, sm: 16, md: 24, lg: 32 },
+        ]}
+      >
+        {products.map(renderProduct)}
+      </Row>
     </React.Fragment>
   );
 }

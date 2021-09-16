@@ -17,13 +17,17 @@ function NavbarComp() {
   const history = useHistory();
   const dispatch = useDispatch();
 
-  const [current, setCurrent] = useState("1");
+  const [current, setCurrent] = useState("2");
 
   const cartCount = useSelector((state) => state.cart.count);
   const wishlistCount = useSelector((state) => state.wishlist.count);
 
   const handleMenuClick = (e) => {
     setCurrent(e.key);
+    if (e.key === "9") return handleWishlistClick();
+    if (e.key === "10") return handleCartClick();
+    if (e.key === "11") return handleProfileClick();
+    if (e.key === "12") return handleLogoutClick();
     history.push("/");
   };
 
@@ -52,57 +56,38 @@ function NavbarComp() {
 
   return (
     <React.Fragment>
-      <Row>
-        <Col span={3}>
-          <img
-            alt="logo"
-            src={logo}
-            style={{ maxHeight: 30, marginLeft: 10 }}
-          />
-        </Col>
-        <Col span={18}>
-          <Menu
-            onClick={handleMenuClick}
-            selectedKeys={[current]}
-            mode="horizontal"
-          >
-            <Menu.Item key="1">ALL</Menu.Item>
-            <Menu.Item key="2">DESKS</Menu.Item>
-            <Menu.Item key="3">CHAIRS</Menu.Item>
-            <Menu.Item key="4">STORAGE & ACCESSORIES</Menu.Item>
-            <Menu.Item key="5">SHOP BY SPACE</Menu.Item>
-            <Menu.Item key="6">DESIGN YOUR HOME OFFICE</Menu.Item>
-          </Menu>
-        </Col>
-        <Col span={3}>
-          <Space>
-            <Badge size="small" count={wishlistCount}>
-              <Button
-                shape="circle"
-                icon={<HeartOutlined />}
-                onClick={() => handleWishlistClick()}
-              />
-            </Badge>
-            <Badge size="small" count={cartCount}>
-              <Button
-                shape="circle"
-                icon={<ShoppingCartOutlined />}
-                onClick={() => handleCartClick()}
-              />
-            </Badge>
-            <Button
-              shape="circle"
-              icon={<UserOutlined />}
-              onClick={() => handleProfileClick()}
-            />
-            <Button
-              shape="circle"
-              icon={<LogoutOutlined />}
-              onClick={() => handleLogoutClick()}
-            />
-          </Space>
-        </Col>
-      </Row>
+      <Menu
+        onClick={handleMenuClick}
+        selectedKeys={[current]}
+        mode="horizontal"
+      >
+        <Menu.Item key="1">
+          <img alt="logo" src={logo} style={{ maxWidth: 80 }} />
+        </Menu.Item>
+        <Menu.Item key="2">ALL</Menu.Item>
+        <Menu.Item key="3">DESKS</Menu.Item>
+        <Menu.Item key="4">CHAIRS</Menu.Item>
+        <Menu.Item key="5">STORAGE & ACCESSORIES</Menu.Item>
+        <Menu.Item key="6">SHOP BY SPACE</Menu.Item>
+        <Menu.Item key="7">DESIGN YOUR SPACE</Menu.Item>
+        <Menu.Item key="8">DESIGN YOUR HOME OFFICE</Menu.Item>
+        <Menu.Item key="9">
+          <Badge size="small" count={wishlistCount}>
+            <Button shape="circle" icon={<HeartOutlined />} />
+          </Badge>
+        </Menu.Item>
+        <Menu.Item key="10">
+          <Badge size="small" count={cartCount}>
+            <Button shape="circle" icon={<ShoppingCartOutlined />} />
+          </Badge>
+        </Menu.Item>
+        <Menu.Item key="11">
+          <Button shape="circle" icon={<UserOutlined />} />
+        </Menu.Item>
+        <Menu.Item key="12">
+          <Button shape="circle" icon={<LogoutOutlined />} />
+        </Menu.Item>
+      </Menu>
     </React.Fragment>
   );
 }
