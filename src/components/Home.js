@@ -2,7 +2,8 @@ import React, { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { Card, Col, Row, message } from "antd";
 import axios from "axios";
-import { HeartOutlined, ShoppingOutlined } from "@ant-design/icons";
+import _ from "lodash";
+import { HeartFilled, ShoppingOutlined } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { setProducts } from "../redux/actions/productsActions";
 import { setCart, updateCartCount } from "../redux/actions/cartActions";
@@ -17,6 +18,7 @@ function Home(props) {
   const dispatch = useDispatch();
 
   const products = useSelector((state) => state.products.all);
+  const wishlist = useSelector((state) => state.wishlist.all);
 
   const fetchProducts = async () => {
     const response = await axios
@@ -123,11 +125,40 @@ function Home(props) {
     }
   };
 
+  const handleRemoveFromWishlist = async (id) => {
+    message.loading("Removing product from wishlist...", 0.5);
+
+    const accessToken = localStorage.getItem("accessToken");
+    const body = { wishlistId: id };
+    const config = {
+      method: "DELETE",
+      url: "https://ecommerce-app-locus-backend.herokuapp.com/api/wishlist",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+      data: body,
+    };
+    const response = await axios(config).catch((err) => {
+      message.info("Please login to continue", 1);
+      console.log("Err: ", err);
+      history.push("/login");
+    });
+    if (response) {
+      message.success("Product removed from wishlist", 1);
+      fetchWishlist();
+    }
+  };
+
   const handleImageClick = (id) => {
     history.push(`/products/${id}`);
   };
 
   const renderProduct = (product, index) => {
+    const wishlistItem = _.find(wishlist, {
+      product: { productId: product.productId },
+    });
+    const isWishlistItem = _.isEmpty(wishlistItem);
+
     return (
       <React.Fragment>
         <Col xs={24} sm={12} md={8} lg={6} xl={6}>
@@ -146,9 +177,14 @@ function Home(props) {
                 }
                 ß
                 actions={[
-                  <HeartOutlined
+                  <HeartFilled
+                    style={{ color: isWishlistItem ? "lightGrey" : "red" }}
                     key="heart"
-                    onClick={() => handleAddToWishlist(product?.productId)}
+                    onClick={() =>
+                      isWishlistItem
+                        ? handleAddToWishlist(product?.productId)
+                        : handleRemoveFromWishlist(wishlistItem?.wishlistId)
+                    }
                   />,
                   <ShoppingOutlined
                     key="shopping"

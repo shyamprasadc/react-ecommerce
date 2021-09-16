@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
+import _ from "lodash";
 import {
   Row,
   Col,
@@ -15,7 +16,7 @@ import {
   Radio,
   message,
 } from "antd";
-import { HeartOutlined } from "@ant-design/icons";
+import { HeartFilled } from "@ant-design/icons";
 import {
   setProductDetails,
   removeProductDetails,
@@ -45,6 +46,12 @@ function Product(props) {
 
   const product = useSelector((state) => state.products.productDetails);
   const productGroup = useSelector((state) => state.products.productGroup);
+  const wishlist = useSelector((state) => state.wishlist.all);
+
+  const wishlistItem = _.find(wishlist, {
+    product: { productId: selectedProductId },
+  });
+  const isWishlistItem = _.isEmpty(wishlistItem);
 
   const fetchOneProduct = async (id) => {
     const response = await axios
@@ -164,6 +171,30 @@ function Product(props) {
     }
   };
 
+  const handleRemoveFromWishlist = async (id) => {
+    message.loading("Removing product from wishlist...", 0.5);
+
+    const accessToken = localStorage.getItem("accessToken");
+    const body = { wishlistId: id };
+    const config = {
+      method: "DELETE",
+      url: "https://ecommerce-app-locus-backend.herokuapp.com/api/wishlist",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+      data: body,
+    };
+    const response = await axios(config).catch((err) => {
+      message.info("Please login to continue", 1);
+      console.log("Err: ", err);
+      history.push("/login");
+    });
+    if (response) {
+      message.success("Product removed from wishlist", 1);
+      fetchWishlist();
+    }
+  };
+
   useEffect(() => {
     if (productId && productId !== "") fetchOneProduct(productId);
 
@@ -244,10 +275,17 @@ function Product(props) {
                   </span>
                 </Title>
                 <br />
-                <Button
-                  shape="circle"
-                  icon={<HeartOutlined />}
-                  onClick={() => handleAddToWishlist(product?.productId)}
+                <HeartFilled
+                  style={{
+                    fontSize: 25,
+                    color: isWishlistItem ? "lightGrey" : "red",
+                  }}
+                  key="heart"
+                  onClick={() =>
+                    isWishlistItem
+                      ? handleAddToWishlist(product?.productId)
+                      : handleRemoveFromWishlist(wishlistItem?.wishlistId)
+                  }
                 />
                 <br />
                 <br />
