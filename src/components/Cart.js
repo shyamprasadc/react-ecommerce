@@ -17,8 +17,15 @@ function Cart(props) {
   const userDetails = useSelector((state) => state.user.userDetails);
   const cart = useSelector((state) => state.cart.all);
 
-  const totalRegularPrice = _.sumBy(cart, "product.regularPrice");
-  const totalDiscountPrice = _.sumBy(cart, "product.discountedPrice");
+  _.map(cart, (item) => {
+    item.totalProductRegularPrice =
+      item?.product?.regularPrice * item?.quantity;
+    item.totalProductDiscountedPrice =
+      item?.product?.discountedPrice * item?.quantity;
+  });
+
+  const totalRegularPrice = _.sumBy(cart, "totalProductRegularPrice");
+  const totalDiscountPrice = _.sumBy(cart, "totalProductDiscountedPrice");
 
   const fetchCart = async () => {
     const accessToken = localStorage.getItem("accessToken");
@@ -125,7 +132,7 @@ function Cart(props) {
                 </span>
                 <br />
                 <br />
-                <p>Quantity: 1</p>
+                <p>Quantity: {cartItem?.quantity}</p>
               </Col>
               <Col xs={24} sm={24} md={2} lg={2} xl={2}>
                 <Button
@@ -173,9 +180,11 @@ function Cart(props) {
               </Col>
               <Col span={12} style={{ textAlign: "right" }}>
                 <p>₹{totalRegularPrice}</p>
-                <p style={{ color: "orange" }}>-₹{totalDiscountPrice}</p>
+                <p style={{ color: "orange" }}>
+                  -₹{totalRegularPrice - totalDiscountPrice}
+                </p>
                 <p>
-                  <b>₹{totalRegularPrice - totalDiscountPrice}</b>
+                  <b>₹{totalDiscountPrice}</b>
                 </p>
               </Col>
             </Row>
