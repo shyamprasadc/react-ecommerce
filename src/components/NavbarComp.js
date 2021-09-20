@@ -24,11 +24,12 @@ function NavbarComp() {
 
   const handleMenuClick = (e) => {
     setCurrent(e.key);
+    if (e.key === "1") return history.push("/");
     if (e.key === "9") return handleWishlistClick();
     if (e.key === "10") return handleCartClick();
     if (e.key === "11") return handleProfileClick();
     if (e.key === "12") return handleLogoutClick();
-    history.push("/");
+    history.push("/all");
   };
 
   const handleWishlistClick = () => {

@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import { Card, Col, Row, Carousel, message } from "antd";
+import { Card, Col, Row, message } from "antd";
 import axios from "axios";
 import _ from "lodash";
 import { HeartFilled, ShoppingOutlined } from "@ant-design/icons";
@@ -13,7 +13,7 @@ import {
 } from "../redux/actions/wishlistActions";
 const { Meta } = Card;
 
-function Home(props) {
+function Products(props) {
   const history = useHistory();
   const dispatch = useDispatch();
 
@@ -221,36 +221,6 @@ function Home(props) {
 
   return (
     <React.Fragment>
-      <Carousel autoplay effect="fade">
-        <div>
-          <img
-            alt="example"
-            src={
-              "https://assets.myntassets.com/f_webp,w_980,c_limit,fl_progressive,dpr_2.0/assets/images/2021/9/19/b87dd3ae-f0c1-4c88-af27-839009fa49361632055905457-30-Sep-Prebuzz-Wishlist-desktop-----1.png"
-            }
-            style={{ width: "100%" }}
-          />
-        </div>
-        <div>
-          <img
-            alt="example"
-            src={
-              "https://assets.myntassets.com/f_webp,w_980,c_limit,fl_progressive,dpr_2.0/assets/images/2021/9/14/bc55d378-bd56-46c3-ad4e-c178af604f571631633421839-Dressberry_Desk--2-.jpg"
-            }
-            style={{ width: "100%" }}
-          />
-        </div>
-        <div>
-          <img
-            alt="example"
-            src={
-              "https://assets.myntassets.com/f_webp,w_980,c_limit,fl_progressive,dpr_2.0/assets/images/2021/9/19/b0f15055-c43c-4e16-b7bb-6ebbbffe58df1632057195250-T-Shirts_Desk.jpg"
-            }
-            style={{ width: "100%" }}
-          />
-        </div>
-      </Carousel>
-      <br />
       <Row
         gutter={[
           { xs: 8, sm: 16, md: 24, lg: 32 },
@@ -263,4 +233,4 @@ function Home(props) {
   );
 }
 
-export default Home;
+export default Products;

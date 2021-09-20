@@ -111,8 +111,8 @@ function Cart(props) {
               </Col>
               <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                 <Meta
-                  title={cartItem.product.name}
-                  description={cartItem?.product?.description}
+                  title={cartItem?.product?.name}
+                  description={`${cartItem?.product?.description} (sku#: ${cartItem?.product?.sku})`}
                 />
                 <br />
                 <span style={{ marginInlineEnd: 10 }}>

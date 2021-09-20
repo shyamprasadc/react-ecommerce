@@ -32,7 +32,7 @@ import Review from "./Review";
 const { Option } = Select;
 const { Title } = Typography;
 
-function Product(props) {
+function ProductDetails(props) {
   const history = useHistory();
   const dispatch = useDispatch();
 
@@ -252,6 +252,7 @@ function Product(props) {
             <Col>
               <Title level={3}>{product?.name}</Title>
               <Title level={4}>{product?.description}</Title>
+              <Title level={5}>SKU#: {product?.sku}</Title>
               <Rate value={3} />
               <br />
               <br />
@@ -339,4 +340,4 @@ function Product(props) {
   );
 }
 
-export default Product;
+export default ProductDetails;
