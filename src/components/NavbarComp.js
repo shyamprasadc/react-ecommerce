@@ -11,7 +11,10 @@ import {
 import logo from "../assets/images/hon_logo_1.png";
 import { removeCart } from "../redux/actions/cartActions";
 import { removeWishlist } from "../redux/actions/wishlistActions";
-import { removeUserDetails } from "../redux/actions/userActions";
+import {
+  removeUserAddress,
+  removeUserDetails,
+} from "../redux/actions/userActions";
 
 function NavbarComp() {
   const history = useHistory();
@@ -50,6 +53,7 @@ function NavbarComp() {
       .then(() => message.success("Logout success", 1));
     localStorage.removeItem("accessToken");
     dispatch(removeUserDetails());
+    dispatch(removeUserAddress());
     dispatch(removeCart());
     dispatch(removeWishlist());
     history.push(`/`);

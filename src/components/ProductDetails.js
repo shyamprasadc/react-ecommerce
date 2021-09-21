@@ -15,6 +15,7 @@ import {
   Typography,
   Radio,
   message,
+  Card,
 } from "antd";
 import { HeartFilled } from "@ant-design/icons";
 import {
@@ -223,8 +224,8 @@ function ProductDetails(props) {
   return (
     <React.Fragment>
       <Row>
-        <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-          <Row justify="space-around">
+        <Col xs={24} sm={24} md={24} lg={12} xl={12}>
+          <Row justify="center">
             <Col>
               <Image
                 preview={{ visible: false }}
@@ -246,8 +247,43 @@ function ProductDetails(props) {
               </div>
             </Col>
           </Row>
+          <Row
+            justify="center"
+            gutter={[
+              { xs: 8, sm: 16, md: 24, lg: 32 },
+              { xs: 8, sm: 16, md: 24, lg: 32 },
+            ]}
+          >
+            <Col>
+              <Card hoverable bodyStyle={{ padding: 0 }}>
+                <img
+                  alt="example"
+                  style={{ maxWidth: 100 }}
+                  src={product?.image}
+                />
+              </Card>
+            </Col>
+            <Col>
+              <Card hoverable bodyStyle={{ padding: 0 }}>
+                <img
+                  alt="example"
+                  style={{ maxWidth: 100 }}
+                  src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"
+                />
+              </Card>
+            </Col>
+            <Col>
+              <Card hoverable bodyStyle={{ padding: 0 }}>
+                <img
+                  alt="example"
+                  style={{ maxWidth: 100 }}
+                  src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"
+                />
+              </Card>
+            </Col>
+          </Row>
         </Col>
-        <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+        <Col xs={24} sm={24} md={24} lg={12} xl={12}>
           <Row justify="start">
             <Col>
               <Title level={3}>{product?.name}</Title>

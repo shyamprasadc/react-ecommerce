@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import { Card, Col, Row, Carousel, message } from "antd";
+import { Card, Col, Row, Carousel, Typography, message } from "antd";
+import ReactPlayer from "react-player";
 import axios from "axios";
 import _ from "lodash";
 import { HeartFilled, ShoppingOutlined } from "@ant-design/icons";
@@ -12,6 +13,7 @@ import {
   updateWishlistCount,
 } from "../redux/actions/wishlistActions";
 const { Meta } = Card;
+const { Title } = Typography;
 
 function Home(props) {
   const history = useHistory();
@@ -249,7 +251,16 @@ function Home(props) {
             style={{ width: "100%" }}
           />
         </div>
+        <div>
+          <ReactPlayer
+            width="100%"
+            controls={false}
+            url="https://www.youtube.com/watch?v=I2HKW9ovwEU"
+          />
+        </div>
       </Carousel>
+      <br />
+      <Title level={4}>BIGGEST DEALS ON TOP BRANDS</Title>
       <br />
       <Row
         gutter={[

@@ -1,11 +1,21 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import _ from "lodash";
-import { Row, Col, Card, Typography, Button, message } from "antd";
+import {
+  Row,
+  Col,
+  Card,
+  Space,
+  Typography,
+  Button,
+  Radio,
+  message,
+} from "antd";
+import { PlusOutlined } from "@ant-design/icons";
 import { DeleteOutlined } from "@ant-design/icons";
-import { setUserDetails } from "../redux/actions/userActions";
+import { setUserAddress, setUserDetails } from "../redux/actions/userActions";
 import { setCart, updateCartCount } from "../redux/actions/cartActions";
 const { Title } = Typography;
 const { Meta } = Card;
@@ -14,7 +24,10 @@ function Cart(props) {
   const history = useHistory();
   const dispatch = useDispatch();
 
+  const [selectedAddressId, setSelectedAddressId] = useState(0);
+
   const userDetails = useSelector((state) => state.user.userDetails);
+  const userAddress = useSelector((state) => state.user.userAddress);
   const cart = useSelector((state) => state.cart.all);
 
   _.map(cart, (item) => {
@@ -63,9 +76,33 @@ function Cart(props) {
     if (response) dispatch(setUserDetails(response.data));
   };
 
+  const fetchUserAddress = async () => {
+    const accessToken = localStorage.getItem("accessToken");
+    const config = {
+      method: "GET",
+      url: "https://ecommerce-app-locus-backend.herokuapp.com/api/address",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    };
+    const response = await axios(config).catch((err) => {
+      console.log("Err: ", err);
+      history.push("/login");
+    });
+    if (response) {
+      dispatch(setUserAddress(response.data));
+      setSelectedAddressId(response.data[0]?.addressId);
+    }
+  };
+
+  const handleAddNewAddress = () => {
+    history.push("/address");
+  };
+
   useEffect(() => {
     fetchCart();
     fetchUserDetails();
+    fetchUserAddress();
   }, []);
 
   const handleRemoveCartItemClick = async (id) => {
@@ -91,8 +128,33 @@ function Cart(props) {
     }
   };
 
+  const handleRemoveAddressClick = async (id) => {
+    message.loading("Deleting address...", 0.5);
+    const accessToken = localStorage.getItem("accessToken");
+    const config = {
+      method: "DELETE",
+      url: `https://ecommerce-app-locus-backend.herokuapp.com/api/address/${id}`,
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    };
+    const response = await axios(config).catch((err) => {
+      message.info("Please login to continue", 1);
+      console.log("Err: ", err);
+      history.push("/login");
+    });
+    if (response) {
+      message.success("Address deleted", 1);
+      fetchUserAddress();
+    }
+  };
+
   const handleImageClick = (id) => {
     history.push(`/products/${id}`);
+  };
+
+  const handleAddressChange = (e) => {
+    setSelectedAddressId(e.target.value);
   };
 
   const renderProduct = (cartItem, index) => {
@@ -153,13 +215,40 @@ function Cart(props) {
       <Row>
         <Col xs={24} sm={24} md={12} lg={12} xl={12}>
           <Card style={{ maxWidth: "80%" }}>
+            <Row>
+              <Col span={20}>
+                <Title level={5}>Address</Title>
+              </Col>
+              <Col span={4}>
+                <Button
+                  type="primary"
+                  icon={<PlusOutlined />}
+                  onClick={() => handleAddNewAddress()}
+                />
+              </Col>
+            </Row>
             <p>
-              Deliver to:{" "}
-              <b>
-                {`${userDetails?.name}, ${userDetails?.phone}, ${userDetails?.email}`}
-              </b>
+              Deliver to:
+              <b>{`${userDetails?.name}, ${userDetails?.phone}, ${userDetails?.email}`}</b>
             </p>
-            <p>{`${userDetails?.address}, ${userDetails?.city},${userDetails?.postcode}`}</p>
+            <Radio.Group
+              onChange={handleAddressChange}
+              value={selectedAddressId}
+            >
+              <Space direction="vertical">
+                {userAddress.map((item) => (
+                  <Radio value={item?.addressId}>
+                    {`${item?.address}, ${item?.city},${item?.postcode}   `}
+                    <Button
+                      shape="circle"
+                      size="small"
+                      icon={<DeleteOutlined />}
+                      onClick={() => handleRemoveAddressClick(item?.addressId)}
+                    />
+                  </Radio>
+                ))}
+              </Space>
+            </Radio.Group>
           </Card>
           <br />
           <br />
