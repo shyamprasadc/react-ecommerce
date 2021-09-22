@@ -1,7 +1,7 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
-import { Form, Input, Button, Checkbox, Typography, message } from "antd";
+import { Form, Input, Button, Typography, message } from "antd";
 const { Title } = Typography;
 
 const formItemLayout = {

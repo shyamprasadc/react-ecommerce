@@ -1,0 +1,12 @@
+.carousel-wrapper {
+  position: relative !important;
+  padding-top: 24% !important;
+}
+
+.carousel-content {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+}

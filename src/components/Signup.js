@@ -1,7 +1,7 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
-import { Form, Input, Select, Button, Card, Typography, message } from "antd";
+import { Form, Input, Select, Button, Typography, message } from "antd";
 const { Option } = Select;
 const { Title } = Typography;
 

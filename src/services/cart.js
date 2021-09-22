@@ -2,9 +2,9 @@ import axios from "axios";
 import { store } from "../redux/store";
 import { ActionTypes } from "../redux/constants/actionTypes";
 
-function initAction(type, payload) {
+const initAction = (type, payload) => {
   return { type, payload };
-}
+};
 
 export const updateCart = async () => {
   const accessToken = localStorage.getItem("accessToken");

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { Menu, Row, Col, Button, Space, Badge, message } from "antd";
+import { Menu, Button, Badge, message } from "antd";
 import {
   ShoppingCartOutlined,
   HeartOutlined,

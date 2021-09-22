@@ -44,6 +44,7 @@ function ProductDetails(props) {
   );
   const [visible, setVisible] = useState(false);
   const [quantity, setQuantity] = useState(1);
+  const [mainImage, setMainImage] = useState("");
 
   const product = useSelector((state) => state.products.productDetails);
   const productGroup = useSelector((state) => state.products.productGroup);
@@ -64,6 +65,7 @@ function ProductDetails(props) {
       });
     if (response) {
       dispatch(setProductDetails(response.data));
+      setMainImage(response.data.image);
       if (response.data.groupId) {
         await fetchProductGroup(response.data.groupId);
       } else {
@@ -211,14 +213,18 @@ function ProductDetails(props) {
     };
   }, [productId]);
 
-  function handleQuantityChange(value) {
+  const handleQuantityChange = (value) => {
     setQuantity(value);
-  }
+  };
 
   const handleProductChange = (e) => {
     setSelectedProductId(e.target.value);
     // history.push(`/products/${e.target.value}`);
     fetchOneProduct(e.target.value);
+  };
+
+  const handleMainImageChange = (url) => {
+    setMainImage(url);
   };
 
   return (
@@ -230,7 +236,7 @@ function ProductDetails(props) {
               <Image
                 preview={{ visible: false }}
                 width={400}
-                src={product?.image}
+                src={mainImage}
                 onClick={() => setVisible(true)}
               />
               <div style={{ display: "none" }}>
@@ -241,8 +247,8 @@ function ProductDetails(props) {
                   }}
                 >
                   <Image src={product?.image} />
-                  <Image src={product?.image} />
-                  <Image src={product?.image} />
+                  <Image src={product?.image2} />
+                  <Image src={product?.image3} />
                 </Image.PreviewGroup>
               </div>
             </Col>
@@ -260,6 +266,7 @@ function ProductDetails(props) {
                   alt="example"
                   style={{ maxWidth: 100 }}
                   src={product?.image}
+                  onClick={() => handleMainImageChange(product?.image)}
                 />
               </Card>
             </Col>
@@ -268,7 +275,8 @@ function ProductDetails(props) {
                 <img
                   alt="example"
                   style={{ maxWidth: 100 }}
-                  src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"
+                  src={product?.image2}
+                  onClick={() => handleMainImageChange(product?.image2)}
                 />
               </Card>
             </Col>
@@ -277,7 +285,8 @@ function ProductDetails(props) {
                 <img
                   alt="example"
                   style={{ maxWidth: 100 }}
-                  src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"
+                  src={product?.image3}
+                  onClick={() => handleMainImageChange(product?.image3)}
                 />
               </Card>
             </Col>
