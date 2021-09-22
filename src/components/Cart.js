@@ -13,8 +13,7 @@ import {
   Radio,
   message,
 } from "antd";
-import { PlusOutlined } from "@ant-design/icons";
-import { DeleteOutlined } from "@ant-design/icons";
+import { PlusOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { setUserAddress, setUserDetails } from "../redux/actions/userActions";
 import { setCart, updateCartCount } from "../redux/actions/cartActions";
 const { Title } = Typography;
@@ -149,6 +148,10 @@ function Cart(props) {
     }
   };
 
+  const handleEditAddressClick = (id) => {
+    history.push(`/address/${id}`);
+  };
+
   const handleImageClick = (id) => {
     history.push(`/products/${id}`);
   };
@@ -238,7 +241,13 @@ function Cart(props) {
               <Space direction="vertical">
                 {userAddress.map((item) => (
                   <Radio value={item?.addressId}>
-                    {`${item?.address}, ${item?.city},${item?.postcode}   `}
+                    {`${item?.address}, ${item?.city},${item?.postcode} `}
+                    <Button
+                      shape="circle"
+                      size="small"
+                      icon={<EditOutlined />}
+                      onClick={() => handleEditAddressClick(item?.addressId)}
+                    />{" "}
                     <Button
                       shape="circle"
                       size="small"

@@ -30,13 +30,14 @@ function App() {
             <Content style={{ background: "white", padding: "2%" }}>
               <Switch>
                 <Route exact path="/" component={Home} />
-                <Route exact path="/all" component={Products} />
+                <Route path="/all" component={Products} />
                 <Route path="/signup" component={Signup} />
                 <Route path="/login" component={Login} />
                 <Route path="/products/:productId" component={ProductDetails} />
                 <Route path="/wishlist" component={Wishlist} />
                 <Route path="/cart" component={Cart} />
-                <Route path="/address" component={Address} />
+                <Route exact path="/address" component={Address} />
+                <Route exact path="/address/:addressId" component={Address} />
                 <Route component={NotFound} />
               </Switch>
             </Content>

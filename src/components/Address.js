@@ -1,5 +1,5 @@
-import React from "react";
-import { useHistory } from "react-router-dom";
+import React, { useEffect } from "react";
+import { useHistory, useParams } from "react-router-dom";
 import axios from "axios";
 import { Form, Input, Button, Typography, message } from "antd";
 const { Title } = Typography;
@@ -37,6 +37,7 @@ const tailFormItemLayout = {
 
 function Address() {
   const history = useHistory();
+  const { addressId } = useParams();
 
   const [form] = Form.useForm();
 
@@ -68,8 +69,69 @@ function Address() {
     }
   };
 
+  const updateAddress = async (id, data) => {
+    message.loading("Updating address...", 0.5);
+
+    const accessToken = localStorage.getItem("accessToken");
+    const body = {
+      address: data.address,
+      city: data.city,
+      postcode: data.postcode,
+    };
+    const config = {
+      method: "PUT",
+      url: `https://ecommerce-app-locus-backend.herokuapp.com/api/address/${id}`,
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+      data: body,
+    };
+    const response = await axios(config).catch((err) => {
+      message.info("Please login to continue", 1);
+      console.log("Err: ", err);
+      history.push("/login");
+    });
+    if (response) {
+      message.success("Address update success", 1);
+      history.push(`/cart`);
+    }
+  };
+
+  const fetchOneAddressAndPatchForm = async (id) => {
+    const accessToken = localStorage.getItem("accessToken");
+    const config = {
+      method: "GET",
+      url: `https://ecommerce-app-locus-backend.herokuapp.com/api/address/${id}`,
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    };
+    const response = await axios(config).catch((err) => {
+      message.info("Please login to continue", 1);
+      console.log("Err: ", err);
+      history.push("/login");
+    });
+    if (response) {
+      form.setFieldsValue({
+        address: response?.data?.address ?? "",
+        city: response?.data?.city ?? "",
+        postcode: response?.data?.postcode ?? "",
+      });
+    }
+  };
+
+  useEffect(() => {
+    if (addressId && addressId !== "") fetchOneAddressAndPatchForm(addressId);
+
+    return () => {};
+  }, [addressId]);
+
   const onFinish = (values) => {
-    addNewAddress(values);
+    if (addressId && addressId !== "") {
+      updateAddress(addressId, values);
+    } else {
+      addNewAddress(values);
+    }
   };
 
   const onFinishFailed = (errorInfo) => {
@@ -84,6 +146,7 @@ function Address() {
         form={form}
         name="register"
         onFinish={onFinish}
+        onFinishFailed={onFinishFailed}
         scrollToFirstError
       >
         <Form.Item
