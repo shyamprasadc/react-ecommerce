@@ -36,16 +36,6 @@ function Home(props) {
     if (response) dispatch(setProducts(response.data));
   };
 
-  useEffect(() => {
-    fetchProducts();
-    setCarouselPlay(true);
-    const accessToken = localStorage.getItem("accessToken");
-    if (accessToken) {
-      fetchCart();
-      fetchWishlist();
-    }
-  }, []);
-
   const fetchCart = async () => {
     const accessToken = localStorage.getItem("accessToken");
     const config = {
@@ -83,6 +73,16 @@ function Home(props) {
       dispatch(updateWishlistCount(response.data.length));
     }
   };
+
+  useEffect(() => {
+    setCarouselPlay(true);
+    fetchProducts();
+    const accessToken = localStorage.getItem("accessToken");
+    if (accessToken) {
+      fetchCart();
+      fetchWishlist();
+    }
+  }, []);
 
   const handleAddToCart = async (id) => {
     message.loading("Adding product to cart...", 0.5);
@@ -170,6 +170,8 @@ function Home(props) {
     if (current === 3) {
       setVideoPlay(true);
       setCarouselPlay(false);
+    } else {
+      setVideoPlay(false);
     }
   };
 
