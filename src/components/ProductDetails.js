@@ -234,8 +234,9 @@ function ProductDetails(props) {
           <Row justify="center">
             <Col>
               <Image
+                alt="example"
                 preview={{ visible: false }}
-                width={400}
+                style={{ maxWidth: 400 }}
                 src={mainImage}
                 onClick={() => setVisible(true)}
               />
