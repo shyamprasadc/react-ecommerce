@@ -184,9 +184,8 @@ function Home(props) {
     return (
       <React.Fragment>
         <Col xs={24} sm={12} md={8} lg={6} xl={6}>
-          <Row>
-            <Col span={2}></Col>
-            <Col span={20}>
+          <Row justify="center">
+            <Col>
               <Card
                 hoverable
                 style={{ maxWidth: 240 }}
@@ -234,7 +233,6 @@ function Home(props) {
                 </span>
               </Card>
             </Col>
-            <Col span={2}></Col>
           </Row>
         </Col>
       </React.Fragment>

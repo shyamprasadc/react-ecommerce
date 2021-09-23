@@ -164,7 +164,7 @@ function Cart(props) {
     return (
       <React.Fragment>
         <Col span={24}>
-          <Card hoverable style={{ width: "80%" }}>
+          <Card hoverable>
             <Row>
               <Col xs={24} sm={24} md={10} lg={10} xl={10}>
                 <img
@@ -215,19 +215,27 @@ function Cart(props) {
 
   return (
     <React.Fragment>
-      <Row>
+      <Row
+        gutter={[
+          { xs: 8, sm: 16, md: 24, lg: 32 },
+          { xs: 8, sm: 16, md: 24, lg: 32 },
+        ]}
+      >
         <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-          <Card style={{ maxWidth: "80%" }}>
+          <Card>
             <Row>
-              <Col span={20}>
+              <Col span={19}>
                 <Title level={5}>Address</Title>
               </Col>
-              <Col span={4}>
+              <Col span={5}>
                 <Button
+                  size="small"
                   type="primary"
                   icon={<PlusOutlined />}
                   onClick={() => handleAddNewAddress()}
-                />
+                >
+                  Add
+                </Button>
               </Col>
             </Row>
             <p>
@@ -263,11 +271,19 @@ function Cart(props) {
           <br />
           <Title level={5}>My Shopping Cart{`(${cart?.length} Items)`}</Title>
           <br />
-          <Row gutter={[24, 24]}>{cart.map(renderProduct)}</Row>
+          <Row
+            gutter={[
+              { xs: 8, sm: 16, md: 24, lg: 32 },
+              { xs: 8, sm: 16, md: 24, lg: 32 },
+            ]}
+          >
+            {cart.map(renderProduct)}
+          </Row>
         </Col>
+
         <Col xs={24} sm={24} md={12} lg={12} xl={12}>
           <Title level={5}>Price Details</Title>
-          <Card style={{ maxWidth: "80%" }}>
+          <Card>
             <Row>
               <Col span={12} style={{ textAlign: "left" }}>
                 <p>Total MRP</p>
@@ -286,7 +302,7 @@ function Cart(props) {
                 </p>
               </Col>
             </Row>
-            <Button style={{ maxWidth: "80%" }} type="primary">
+            <Button type="primary" style={{ width: "100%" }}>
               Place Order
             </Button>
           </Card>
