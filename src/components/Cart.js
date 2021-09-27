@@ -148,6 +148,28 @@ function Cart(props) {
     }
   };
 
+  const handlePlaceOrderClick = async (id) => {
+    if (!cart.length > 0) return message.warning("No products in cart");
+    message.loading("Placing order...", 0.5);
+    const accessToken = localStorage.getItem("accessToken");
+    const config = {
+      method: "POST",
+      url: "https://ecommerce-app-locus-backend.herokuapp.com/api/orders",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    };
+    const response = await axios(config).catch((err) => {
+      message.info("Please login to continue", 1);
+      console.log("Err: ", err);
+      history.push("/login");
+    });
+    if (response) {
+      message.success("Order placed", 1);
+      history.push("/orders");
+    }
+  };
+
   const handleEditAddressClick = (id) => {
     history.push(`/address/${id}`);
   };
@@ -302,7 +324,11 @@ function Cart(props) {
                 </p>
               </Col>
             </Row>
-            <Button type="primary" style={{ width: "100%" }}>
+            <Button
+              type="primary"
+              style={{ width: "100%" }}
+              onClick={() => handlePlaceOrderClick()}
+            >
               Place Order
             </Button>
           </Card>

@@ -16,6 +16,7 @@ import Login from "./components/Login";
 import Signup from "./components/Signup";
 import Home from "./components/Home";
 import Address from "./components/Address";
+import Orders from "./components/Orders";
 const { Header, Footer, Content } = Layout;
 
 function App() {
@@ -36,6 +37,7 @@ function App() {
                 <Route path="/products/:productId" component={ProductDetails} />
                 <Route path="/wishlist" component={Wishlist} />
                 <Route path="/cart" component={Cart} />
+                <Route path="/orders" component={Orders} />
                 <Route exact path="/address" component={Address} />
                 <Route exact path="/address/:addressId" component={Address} />
                 <Route component={NotFound} />

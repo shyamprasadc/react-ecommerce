@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { Menu, Button, Badge, message } from "antd";
+import { Menu, Button, Badge, Popover, message } from "antd";
 import {
+  ShoppingOutlined,
   ShoppingCartOutlined,
   HeartOutlined,
   UserOutlined,
@@ -15,6 +16,7 @@ import {
   removeUserAddress,
   removeUserDetails,
 } from "../redux/actions/userActions";
+import MiniCart from "./MiniCart";
 
 function NavbarComp() {
   const history = useHistory();
@@ -27,11 +29,13 @@ function NavbarComp() {
 
   const handleMenuClick = (e) => {
     setCurrent(e.key);
+    console.log(e.key);
     if (e.key === "1") return history.push("/");
     if (e.key === "9") return handleWishlistClick();
-    if (e.key === "10") return handleCartClick();
-    if (e.key === "11") return handleProfileClick();
-    if (e.key === "12") return handleLogoutClick();
+    if (e.key === "10") return;
+    if (e.key === "11") return handleOrdersClick();
+    if (e.key === "12") return handleProfileClick();
+    if (e.key === "13") return handleLogoutClick();
     history.push("/all");
   };
 
@@ -43,8 +47,8 @@ function NavbarComp() {
     history.push(`/login`);
   };
 
-  const handleCartClick = () => {
-    history.push(`/cart`);
+  const handleOrdersClick = () => {
+    history.push(`/orders`);
   };
 
   const handleLogoutClick = () => {
@@ -82,14 +86,19 @@ function NavbarComp() {
           </Badge>
         </Menu.Item>
         <Menu.Item key="10">
-          <Badge size="small" count={cartCount}>
-            <Button shape="circle" icon={<ShoppingCartOutlined />} />
-          </Badge>
+          <Popover placement="bottomRight" content={MiniCart}>
+            <Badge size="small" count={cartCount}>
+              <Button shape="circle" icon={<ShoppingOutlined />} />
+            </Badge>
+          </Popover>
         </Menu.Item>
         <Menu.Item key="11">
-          <Button shape="circle" icon={<UserOutlined />} />
+          <Button shape="circle" icon={<ShoppingCartOutlined />} />
         </Menu.Item>
         <Menu.Item key="12">
+          <Button shape="circle" icon={<UserOutlined />} />
+        </Menu.Item>
+        <Menu.Item key="13">
           <Button shape="circle" icon={<LogoutOutlined />} />
         </Menu.Item>
       </Menu>

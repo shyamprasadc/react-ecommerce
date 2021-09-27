@@ -196,7 +196,6 @@ function Home(props) {
                     onClick={() => handleImageClick(product?.productId)}
                   />
                 }
-                ß
                 actions={[
                   <HeartFilled
                     style={{ color: isWishlistItem ? "lightGrey" : "red" }}
