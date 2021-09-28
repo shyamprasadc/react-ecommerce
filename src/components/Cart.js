@@ -16,8 +16,23 @@ import {
 import { PlusOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { setUserAddress, setUserDetails } from "../redux/actions/userActions";
 import { setCart, updateCartCount } from "../redux/actions/cartActions";
+import logo from "../assets/images/hon_logo_1.png";
 const { Title } = Typography;
 const { Meta } = Card;
+
+function loadScript(src) {
+  return new Promise((resolve) => {
+    const script = document.createElement("script");
+    script.src = src;
+    script.onload = () => {
+      resolve(true);
+    };
+    script.onerror = () => {
+      resolve(false);
+    };
+    document.body.appendChild(script);
+  });
+}
 
 function Cart(props) {
   const history = useHistory();
@@ -94,10 +109,6 @@ function Cart(props) {
     }
   };
 
-  const handleAddNewAddress = () => {
-    history.push("/address");
-  };
-
   useEffect(() => {
     fetchCart();
     fetchUserDetails();
@@ -148,16 +159,19 @@ function Cart(props) {
     }
   };
 
-  const handlePlaceOrderClick = async (id) => {
-    if (!cart.length > 0) return message.warning("No products in cart");
-    message.loading("Placing order...", 0.5);
+  const createOrder = async (processId) => {
     const accessToken = localStorage.getItem("accessToken");
+    const body = {
+      addressId: selectedAddressId,
+      processId,
+    };
     const config = {
       method: "POST",
       url: "https://ecommerce-app-locus-backend.herokuapp.com/api/orders",
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
+      data: body,
     };
     const response = await axios(config).catch((err) => {
       message.info("Please login to continue", 1);
@@ -166,8 +180,60 @@ function Cart(props) {
     });
     if (response) {
       message.success("Order placed", 1);
+      fetchCart();
       history.push("/orders");
     }
+  };
+
+  const initRazorpay = async () => {
+    const res = await loadScript(
+      "https://checkout.razorpay.com/v1/checkout.js"
+    );
+
+    if (!res) return message.error("Payment failed", 1);
+
+    const accessToken = localStorage.getItem("accessToken");
+    const config = {
+      method: "POST",
+      url: "https://ecommerce-app-locus-backend.herokuapp.com/api/payments/order",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    };
+    const razorpayResponse = await axios(config).catch((err) => {
+      console.log("Err: ", err);
+      message.info("Please login to continue", 1);
+      return history.push("/login");
+    });
+
+    if (!razorpayResponse.data) message.error("Payment failed", 1);
+
+    const options = {
+      key: "rzp_test_IMZaVpjiUiB6G7",
+      currency: razorpayResponse.data.currency,
+      amount: razorpayResponse.data.amount,
+      order_id: razorpayResponse.data.id,
+      name: "Pay Amount",
+      description: "",
+      image: logo,
+      handler: function (response) {
+        message.info("Payment success", 1);
+        createOrder(response.razorpay_payment_id);
+      },
+      prefill: {
+        name: userDetails?.name,
+        email: userDetails?.email,
+        phone_number: userDetails?.phone,
+      },
+    };
+    const paymentObject = new window.Razorpay(options);
+    paymentObject.open();
+  };
+
+  const handlePlaceOrderClick = async (id) => {
+    if (!cart.length > 0) return message.warning("No products in cart");
+    message.loading("Placing order...", 0.5);
+    initRazorpay();
   };
 
   const handleEditAddressClick = (id) => {
@@ -176,6 +242,10 @@ function Cart(props) {
 
   const handleImageClick = (id) => {
     history.push(`/products/${id}`);
+  };
+
+  const handleAddNewAddress = () => {
+    history.push("/address");
   };
 
   const handleAddressChange = (e) => {

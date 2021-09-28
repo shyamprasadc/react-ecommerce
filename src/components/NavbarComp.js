@@ -11,6 +11,7 @@ import {
 } from "@ant-design/icons";
 import logo from "../assets/images/hon_logo_1.png";
 import { removeCart } from "../redux/actions/cartActions";
+import { removeOrders } from "../redux/actions/ordersActions";
 import { removeWishlist } from "../redux/actions/wishlistActions";
 import {
   removeUserAddress,
@@ -59,6 +60,7 @@ function NavbarComp() {
     dispatch(removeUserDetails());
     dispatch(removeUserAddress());
     dispatch(removeCart());
+    dispatch(removeOrders());
     dispatch(removeWishlist());
     history.push(`/`);
   };

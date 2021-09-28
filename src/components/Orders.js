@@ -2,11 +2,9 @@ import React, { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
-import _ from "lodash";
 import moment from "moment";
-import { Row, Col, Card, Typography, Button, message } from "antd";
+import { Row, Col, Card, Typography, message } from "antd";
 import { setOrders } from "../redux/actions/ordersActions";
-import { setUserDetails } from "../redux/actions/userActions";
 const { Title } = Typography;
 const { Meta } = Card;
 
@@ -15,7 +13,6 @@ function Orders() {
   const dispatch = useDispatch();
 
   const orders = useSelector((state) => state.orders.all);
-  const userDetails = useSelector((state) => state.user.userDetails);
 
   const fetchOrders = async () => {
     const accessToken = localStorage.getItem("accessToken");
@@ -36,24 +33,7 @@ function Orders() {
     }
   };
 
-  const fetchUserDetails = async () => {
-    const accessToken = localStorage.getItem("accessToken");
-    const config = {
-      method: "GET",
-      url: "https://ecommerce-app-locus-backend.herokuapp.com/api/users/profile",
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    };
-    const response = await axios(config).catch((err) => {
-      console.log("Err: ", err);
-      history.push("/login");
-    });
-    if (response) dispatch(setUserDetails(response.data));
-  };
-
   useEffect(() => {
-    fetchUserDetails();
     fetchOrders();
   }, []);
 
@@ -116,16 +96,22 @@ function Orders() {
         <Col span={24}>
           <Card hoverable>
             <Row>
-              <Col span={8}>
-                <Title level={5}>Order #: {order.orderId}</Title>
+              <Col xs={24} sm={24} md={7} lg={7} xl={7}>
+                <Title level={5}>Order #: {order.processId}</Title>
               </Col>
-              <Col span={8}>
+              <Col xs={24} sm={24} md={5} lg={5} xl={5}>
                 <Title level={5}>
-                  {moment(order.createdAt).format("MM/DD/YYYY")}
+                  Date: {moment(order.createdAt).format("MM/DD/YYYY")}
                 </Title>
               </Col>
-              <Col span={8}>
+              <Col xs={24} sm={24} md={5} lg={5} xl={5}>
                 <Title level={5}>Total: {order.totalPrice}</Title>
+              </Col>
+              <Col xs={24} sm={24} md={7} lg={7} xl={7}>
+                <Title level={5}>
+                  To:{" "}
+                  {`${order?.address?.address}, ${order?.address?.city},${order?.address?.postcode} `}
+                </Title>
               </Col>
             </Row>
             <Row
