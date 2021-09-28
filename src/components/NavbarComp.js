@@ -88,7 +88,11 @@ function NavbarComp() {
           </Badge>
         </Menu.Item>
         <Menu.Item key="10">
-          <Popover placement="bottomRight" content={MiniCart}>
+          <Popover
+            placement="bottomRight"
+            overlayStyle={{ maxWidth: 500 }}
+            content={MiniCart}
+          >
             <Badge size="small" count={cartCount}>
               <Button shape="circle" icon={<ShoppingOutlined />} />
             </Badge>
