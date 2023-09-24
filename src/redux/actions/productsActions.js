@@ -1,4 +1,19 @@
 import { ActionTypes } from "../constants/actionTypes";
+import { getProducts } from "../../services/product";
+import { message } from "antd";
+
+export const fetchProducts = (history) => {
+  return async (dispatch) => {
+    const response = await getProducts();
+    if (response.isOk) {
+      return dispatch({
+        type: ActionTypes.SET_PRODUCTS,
+        payload: response.data,
+      });
+    }
+    return message.error(response.data);
+  };
+};
 
 export const setProducts = (products) => {
   return {

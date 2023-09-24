@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from "react";
-import "./Home.css";
 import { useHistory } from "react-router-dom";
-import { Card, Col, Row, Carousel, Typography, message } from "antd";
-import ReactPlayer from "react-player";
-import carousel from "../assets/data/carousel.json";
-import axios from "axios";
-import _ from "lodash";
-import { HeartFilled, ShoppingOutlined } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
-import { setProducts } from "../redux/actions/productsActions";
-import { setCart, updateCartCount } from "../redux/actions/cartActions";
+import { Card, Col, Row, Carousel, Typography } from "antd";
+import { HeartFilled, ShoppingOutlined } from "@ant-design/icons";
+import "./Home.css";
+import carousel from "../assets/data/carousel.json";
+import { fetchProducts } from "../redux/actions/productsActions";
+import { fetchCart, addProductToCart } from "../redux/actions/cartActions";
 import {
-  setWishlist,
-  updateWishlistCount,
+  fetchWishlist,
+  addProductToWishlist,
+  removeProductFromWishlist,
 } from "../redux/actions/wishlistActions";
+import ReactPlayer from "react-player";
+import _ from "lodash";
 const { Meta } = Card;
 const { Title } = Typography;
 
@@ -27,130 +27,26 @@ function Home(props) {
   const products = useSelector((state) => state.products.all);
   const wishlist = useSelector((state) => state.wishlist.all);
 
-  const fetchProducts = async () => {
-    const response = await axios
-      .get("http://localhost:8080/api/products")
-      .catch((err) => {});
-    if (response) dispatch(setProducts(response.data));
-  };
-
-  const fetchCart = async () => {
-    const accessToken = localStorage.getItem("accessToken");
-    const config = {
-      method: "GET",
-      url: "http://localhost:8080/api/cart",
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    };
-    const response = await axios(config).catch((err) => {
-      history.push("/login");
-    });
-    if (response) {
-      dispatch(setCart(response.data));
-      dispatch(updateCartCount(response.data.length));
-    }
-  };
-
-  const fetchWishlist = async () => {
-    const accessToken = localStorage.getItem("accessToken");
-    const config = {
-      method: "GET",
-      url: "http://localhost:8080/api/wishlist",
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    };
-    const response = await axios(config).catch((err) => {
-      history.push("/login");
-    });
-    if (response) {
-      dispatch(setWishlist(response.data));
-      dispatch(updateWishlistCount(response.data.length));
-    }
-  };
-
   useEffect(() => {
     setCarouselPlay(true);
-    fetchProducts();
+    dispatch(fetchProducts());
     const accessToken = localStorage.getItem("accessToken");
     if (accessToken) {
-      fetchCart();
-      fetchWishlist();
+      dispatch(fetchCart());
+      dispatch(fetchWishlist());
     }
-  }, []);
+  }, [dispatch]);
 
-  const handleAddToCart = async (id) => {
-    message.loading("Adding product to cart...", 0.5);
-    const accessToken = localStorage.getItem("accessToken");
-    const body = {
-      productId: id,
-      quantity: 1,
-    };
-    const config = {
-      method: "POST",
-      url: "http://localhost:8080/api/cart",
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-      data: body,
-    };
-    const response = await axios(config).catch((err) => {
-      message.info("Please login to continue", 1);
-
-      history.push("/login");
-    });
-    if (response) {
-      message.success("Product added to cart", 1);
-      fetchCart();
-    }
+  const handleAddToCart = (productId) => {
+    dispatch(addProductToCart(productId, 1, history));
   };
 
-  const handleAddToWishlist = async (id) => {
-    message.loading("Adding product to wishlist...", 0.5);
-    const accessToken = localStorage.getItem("accessToken");
-    const body = { productId: id };
-    const config = {
-      method: "POST",
-      url: "http://localhost:8080/api/wishlist",
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-      data: body,
-    };
-    const response = await axios(config).catch((err) => {
-      message.info("Please login to continue", 1);
-
-      history.push("/login");
-    });
-    if (response) {
-      message.success("Product added to wishlist", 1);
-      fetchWishlist();
-    }
+  const handleAddToWishlist = (productId) => {
+    dispatch(addProductToWishlist(productId, history));
   };
 
-  const handleRemoveFromWishlist = async (id) => {
-    message.loading("Removing product from wishlist...", 0.5);
-
-    const accessToken = localStorage.getItem("accessToken");
-    const body = { wishlistId: id };
-    const config = {
-      method: "DELETE",
-      url: "http://localhost:8080/api/wishlist",
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-      data: body,
-    };
-    const response = await axios(config).catch((err) => {
-      message.info("Please login to continue", 1);
-
-      history.push("/login");
-    });
-    if (response) {
-      message.success("Product removed from wishlist", 1);
-      fetchWishlist();
-    }
+  const handleRemoveFromWishlist = (wishlistId) => {
+    dispatch(removeProductFromWishlist(wishlistId, history));
   };
 
   const handleImageClick = (id) => {
