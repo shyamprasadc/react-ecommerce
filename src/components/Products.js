@@ -22,10 +22,8 @@ function Products(props) {
 
   const fetchProducts = async () => {
     const response = await axios
-      .get("https://ecommerce-app-locus-backend.herokuapp.com/api/products")
-      .catch((err) => {
-        console.log("Err: ", err);
-      });
+      .get("http://localhost:8080/api/products")
+      .catch((err) => {});
     if (response) dispatch(setProducts(response.data));
   };
 
@@ -42,13 +40,12 @@ function Products(props) {
     const accessToken = localStorage.getItem("accessToken");
     const config = {
       method: "GET",
-      url: "https://ecommerce-app-locus-backend.herokuapp.com/api/cart",
+      url: "http://localhost:8080/api/cart",
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
     };
     const response = await axios(config).catch((err) => {
-      console.log("Err: ", err);
       history.push("/login");
     });
     if (response) {
@@ -61,13 +58,12 @@ function Products(props) {
     const accessToken = localStorage.getItem("accessToken");
     const config = {
       method: "GET",
-      url: "https://ecommerce-app-locus-backend.herokuapp.com/api/wishlist",
+      url: "http://localhost:8080/api/wishlist",
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
     };
     const response = await axios(config).catch((err) => {
-      console.log("Err: ", err);
       history.push("/login");
     });
     if (response) {
@@ -85,7 +81,7 @@ function Products(props) {
     };
     const config = {
       method: "POST",
-      url: "https://ecommerce-app-locus-backend.herokuapp.com/api/cart",
+      url: "http://localhost:8080/api/cart",
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
@@ -93,7 +89,7 @@ function Products(props) {
     };
     const response = await axios(config).catch((err) => {
       message.info("Please login to continue", 1);
-      console.log("Err: ", err);
+
       history.push("/login");
     });
     if (response) {
@@ -108,7 +104,7 @@ function Products(props) {
     const body = { productId: id };
     const config = {
       method: "POST",
-      url: "https://ecommerce-app-locus-backend.herokuapp.com/api/wishlist",
+      url: "http://localhost:8080/api/wishlist",
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
@@ -116,7 +112,7 @@ function Products(props) {
     };
     const response = await axios(config).catch((err) => {
       message.info("Please login to continue", 1);
-      console.log("Err: ", err);
+
       history.push("/login");
     });
     if (response) {
@@ -132,7 +128,7 @@ function Products(props) {
     const body = { wishlistId: id };
     const config = {
       method: "DELETE",
-      url: "https://ecommerce-app-locus-backend.herokuapp.com/api/wishlist",
+      url: "http://localhost:8080/api/wishlist",
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
@@ -140,7 +136,7 @@ function Products(props) {
     };
     const response = await axios(config).catch((err) => {
       message.info("Please login to continue", 1);
-      console.log("Err: ", err);
+
       history.push("/login");
     });
     if (response) {

@@ -54,12 +54,12 @@ function Signup() {
     };
     const config = {
       method: "POST",
-      url: "https://ecommerce-app-locus-backend.herokuapp.com/api/users/register",
+      url: "http://localhost:8080/api/users/register",
       data: body,
     };
     const response = await axios(config).catch((err) => {
       message.error("Signup failed", 1);
-      console.log("Err: ", err);
+
       history.push("/signup");
     });
     if (response) {

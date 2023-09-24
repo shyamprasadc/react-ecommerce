@@ -28,13 +28,12 @@ function MiniCart(props) {
     const accessToken = localStorage.getItem("accessToken");
     const config = {
       method: "GET",
-      url: "https://ecommerce-app-locus-backend.herokuapp.com/api/cart",
+      url: "http://localhost:8080/api/cart",
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
     };
     const response = await axios(config).catch((err) => {
-      console.log("Err: ", err);
       message.info("Please login to continue", 1);
       history.push("/login");
     });
@@ -54,7 +53,7 @@ function MiniCart(props) {
     const body = { cartId: id };
     const config = {
       method: "DELETE",
-      url: "https://ecommerce-app-locus-backend.herokuapp.com/api/cart",
+      url: "http://localhost:8080/api/cart",
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
@@ -62,7 +61,7 @@ function MiniCart(props) {
     };
     const response = await axios(config).catch((err) => {
       message.info("Please login to continue", 1);
-      console.log("Err: ", err);
+
       history.push("/login");
     });
     if (response) {

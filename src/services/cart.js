@@ -10,14 +10,12 @@ export const updateCart = async () => {
   const accessToken = localStorage.getItem("accessToken");
   const config = {
     method: "GET",
-    url: "https://ecommerce-app-locus-backend.herokuapp.com/api/cart",
+    url: "http://localhost:8080/api/cart",
     headers: {
       Authorization: `Bearer ${accessToken}`,
     },
   };
-  const response = await axios(config).catch((err) => {
-    console.log("Err: ", err);
-  });
+  const response = await axios(config).catch((err) => {});
   if (response) {
     store.dispatch(initAction(ActionTypes.SET_CART, response.data));
     store.dispatch(

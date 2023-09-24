@@ -32,11 +32,11 @@ function NavbarComp() {
     setCurrent(e.key);
     console.log(e.key);
     if (e.key === "1") return history.push("/");
-    if (e.key === "9") return handleWishlistClick();
-    if (e.key === "10") return;
-    if (e.key === "11") return handleOrdersClick();
-    if (e.key === "12") return handleProfileClick();
-    if (e.key === "13") return handleLogoutClick();
+    if (e.key === "10") return handleWishlistClick();
+    if (e.key === "11") return;
+    if (e.key === "12") return handleOrdersClick();
+    if (e.key === "13") return handleProfileClick();
+    if (e.key === "14") return handleLogoutClick();
     history.push("/all");
   };
 
@@ -75,19 +75,20 @@ function NavbarComp() {
         <Menu.Item key="1">
           <img alt="logo" src={logo} style={{ maxWidth: 80 }} />
         </Menu.Item>
-        <Menu.Item key="2">ALL</Menu.Item>
-        <Menu.Item key="3">DESKS</Menu.Item>
-        <Menu.Item key="4">CHAIRS</Menu.Item>
-        <Menu.Item key="5">STORAGE & ACCESSORIES</Menu.Item>
-        <Menu.Item key="6">SHOP BY SPACE</Menu.Item>
-        <Menu.Item key="7">DESIGN YOUR SPACE</Menu.Item>
-        <Menu.Item key="8">DESIGN YOUR HOME OFFICE</Menu.Item>
-        <Menu.Item key="9">
+        <Menu.Item key="2">All</Menu.Item>
+        <Menu.Item key="3">Men</Menu.Item>
+        <Menu.Item key="4">Women</Menu.Item>
+        <Menu.Item key="5">Kids</Menu.Item>
+        <Menu.Item key="6">Home & Living</Menu.Item>
+        <Menu.Item key="7">Beauty & Health</Menu.Item>
+        <Menu.Item key="8">Jewellery & Accessories</Menu.Item>
+        <Menu.Item key="9">Bags & Footwear</Menu.Item>
+        <Menu.Item key="10">
           <Badge size="small" count={wishlistCount}>
             <Button shape="circle" icon={<HeartOutlined />} />
           </Badge>
         </Menu.Item>
-        <Menu.Item key="10">
+        <Menu.Item key="11">
           <Popover
             placement="bottomRight"
             overlayStyle={{ maxWidth: 500 }}
@@ -98,13 +99,13 @@ function NavbarComp() {
             </Badge>
           </Popover>
         </Menu.Item>
-        <Menu.Item key="11">
+        <Menu.Item key="12">
           <Button shape="circle" icon={<ShoppingCartOutlined />} />
         </Menu.Item>
-        <Menu.Item key="12">
+        <Menu.Item key="13">
           <Button shape="circle" icon={<UserOutlined />} />
         </Menu.Item>
-        <Menu.Item key="13">
+        <Menu.Item key="14">
           <Button shape="circle" icon={<LogoutOutlined />} />
         </Menu.Item>
       </Menu>

@@ -18,13 +18,12 @@ function Orders() {
     const accessToken = localStorage.getItem("accessToken");
     const config = {
       method: "GET",
-      url: "https://ecommerce-app-locus-backend.herokuapp.com/api/orders",
+      url: "http://localhost:8080/api/orders",
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
     };
     const response = await axios(config).catch((err) => {
-      console.log("Err: ", err);
       message.info("Please login to continue", 1);
       history.push("/login");
     });

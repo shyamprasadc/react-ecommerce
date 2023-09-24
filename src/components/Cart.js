@@ -58,13 +58,12 @@ function Cart(props) {
     const accessToken = localStorage.getItem("accessToken");
     const config = {
       method: "GET",
-      url: "https://ecommerce-app-locus-backend.herokuapp.com/api/cart",
+      url: "http://localhost:8080/api/cart",
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
     };
     const response = await axios(config).catch((err) => {
-      console.log("Err: ", err);
       message.info("Please login to continue", 1);
       history.push("/login");
     });
@@ -78,13 +77,12 @@ function Cart(props) {
     const accessToken = localStorage.getItem("accessToken");
     const config = {
       method: "GET",
-      url: "https://ecommerce-app-locus-backend.herokuapp.com/api/users/profile",
+      url: "http://localhost:8080/api/users/profile",
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
     };
     const response = await axios(config).catch((err) => {
-      console.log("Err: ", err);
       history.push("/login");
     });
     if (response) dispatch(setUserDetails(response.data));
@@ -94,13 +92,12 @@ function Cart(props) {
     const accessToken = localStorage.getItem("accessToken");
     const config = {
       method: "GET",
-      url: "https://ecommerce-app-locus-backend.herokuapp.com/api/address",
+      url: "http://localhost:8080/api/address",
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
     };
     const response = await axios(config).catch((err) => {
-      console.log("Err: ", err);
       history.push("/login");
     });
     if (response) {
@@ -121,7 +118,7 @@ function Cart(props) {
     const body = { cartId: id };
     const config = {
       method: "DELETE",
-      url: "https://ecommerce-app-locus-backend.herokuapp.com/api/cart",
+      url: "http://localhost:8080/api/cart",
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
@@ -129,7 +126,7 @@ function Cart(props) {
     };
     const response = await axios(config).catch((err) => {
       message.info("Please login to continue", 1);
-      console.log("Err: ", err);
+
       history.push("/login");
     });
     if (response) {
@@ -143,14 +140,14 @@ function Cart(props) {
     const accessToken = localStorage.getItem("accessToken");
     const config = {
       method: "DELETE",
-      url: `https://ecommerce-app-locus-backend.herokuapp.com/api/address/${id}`,
+      url: `http://localhost:8080/api/address/${id}`,
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
     };
     const response = await axios(config).catch((err) => {
       message.info("Please login to continue", 1);
-      console.log("Err: ", err);
+
       history.push("/login");
     });
     if (response) {
@@ -167,7 +164,7 @@ function Cart(props) {
     };
     const config = {
       method: "POST",
-      url: "https://ecommerce-app-locus-backend.herokuapp.com/api/orders",
+      url: "http://localhost:8080/api/orders",
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
@@ -175,7 +172,7 @@ function Cart(props) {
     };
     const response = await axios(config).catch((err) => {
       message.info("Please login to continue", 1);
-      console.log("Err: ", err);
+
       history.push("/login");
     });
     if (response) {
@@ -195,13 +192,12 @@ function Cart(props) {
     const accessToken = localStorage.getItem("accessToken");
     const config = {
       method: "POST",
-      url: "https://ecommerce-app-locus-backend.herokuapp.com/api/payments/order",
+      url: "http://localhost:8080/api/payments/order",
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
     };
     const razorpayResponse = await axios(config).catch((err) => {
-      console.log("Err: ", err);
       message.info("Please login to continue", 1);
       return history.push("/login");
     });
