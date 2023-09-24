@@ -5,10 +5,11 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import reducers from "./reducers/index";
 
 const logger = createLogger();
+const middleware = [thunk, logger];
 
 const store = createStore(
   reducers,
-  composeWithDevTools(applyMiddleware(logger), applyMiddleware(thunk))
+  composeWithDevTools(applyMiddleware(...middleware))
 );
 
 export default store;
