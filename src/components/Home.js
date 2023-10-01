@@ -12,7 +12,6 @@ import {
   addProductToWishlist,
   removeProductFromWishlist,
 } from "../redux/actions/wishlistActions";
-import ReactPlayer from "react-player";
 import _ from "lodash";
 const { Meta } = Card;
 const { Title } = Typography;
@@ -21,7 +20,6 @@ function Home(props) {
   const history = useHistory();
   const dispatch = useDispatch();
 
-  const [videoPlay, setVideoPlay] = useState(false);
   const [carouselPlay, setCarouselPlay] = useState(false);
 
   const products = useSelector((state) => state.products.all);
@@ -53,19 +51,7 @@ function Home(props) {
     history.push(`/products/${id}`);
   };
 
-  const handleVideoEnd = () => {
-    setVideoPlay(false);
-    setCarouselPlay(true);
-  };
-
-  const handleCarouselChange = (current) => {
-    if (current === 3) {
-      setVideoPlay(true);
-      setCarouselPlay(false);
-    } else {
-      setVideoPlay(false);
-    }
-  };
+  const handleCarouselChange = (current) => {};
 
   const renderProduct = (product, index) => {
     const wishlistItem = _.find(wishlist, {
@@ -156,15 +142,6 @@ function Home(props) {
             className="carousel-content"
             alt="example"
             src={carousel.image3}
-          />
-        </div>
-        <div className="carousel-wrapper">
-          <ReactPlayer
-            className="carousel-content"
-            url={carousel.video1}
-            playing={videoPlay}
-            controls={false}
-            onEnded={handleVideoEnd}
           />
         </div>
       </Carousel>
