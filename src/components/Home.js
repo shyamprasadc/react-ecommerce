@@ -29,13 +29,13 @@ function Home(props) {
 
   useEffect(() => {
     setCarouselPlay(true);
-    dispatch(fetchProducts());
+    dispatch(fetchProducts(history));
     const accessToken = localStorage.getItem("accessToken");
     if (accessToken) {
-      dispatch(fetchCart());
-      dispatch(fetchWishlist());
+      dispatch(fetchCart(history));
+      dispatch(fetchWishlist(history));
     }
-  }, [dispatch]);
+  }, [dispatch, history]);
 
   const handleAddToCart = (productId) => {
     dispatch(addProductToCart(productId, 1, history));

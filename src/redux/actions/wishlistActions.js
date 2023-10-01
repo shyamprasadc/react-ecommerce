@@ -31,7 +31,7 @@ export const addProductToWishlist = (productId, history) => {
     const response = await addToWishlist(productId);
     if (response.isOk) {
       message.success("Product added to wishlist", 1);
-      return dispatch(fetchWishlist());
+      return dispatch(fetchWishlist(history));
     }
     message.info("Please login to continue", 1);
     return history.push("/login");
@@ -44,7 +44,7 @@ export const removeProductFromWishlist = (wishlistId, history) => {
     const response = await removeFromWishlist(wishlistId);
     if (response.isOk) {
       message.success("Product removed from wishlist", 1);
-      return dispatch(fetchWishlist());
+      return dispatch(fetchWishlist(history));
     }
     message.info("Please login to continue", 1);
     return history.push("/login");

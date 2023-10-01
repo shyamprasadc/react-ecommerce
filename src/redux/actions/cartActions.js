@@ -27,7 +27,7 @@ export const addProductToCart = (productId, quantity, history) => {
     const response = await addToCart(productId, quantity);
     if (response.isOk) {
       message.success("Product added to cart", 1);
-      return dispatch(fetchCart());
+      return dispatch(fetchCart(history));
     }
     message.info("Please login to continue", 1);
     return history.push("/login");
@@ -40,7 +40,7 @@ export const removeProductFromCart = (cartId, history) => {
     const response = await removeFromCart(cartId);
     if (response.isOk) {
       message.success("Product removed from cart", 1);
-      return dispatch(fetchCart());
+      return dispatch(fetchCart(history));
     }
     message.info("Please login to continue", 1);
     return history.push("/login");
